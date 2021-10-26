@@ -1,0 +1,112 @@
+version: '3.8'
+
+services:
+
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb1:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - e-learning-network
+
+  mongodb2:
+    image: mongo:latest
+    command: mongod --port 27027
+    volumes:
+      - mongodb2:/data/db
+    ports:
+      - "27027:27027"
+    networks:
+      - e-learning-network
+
+  mongodb3:
+    image: mongo:latest
+    command: mongod --port 27037
+    volumes:
+      - mongodb3:/data/db
+    ports:
+      - "27037:27037"
+    networks:
+      - e-learning-network
+
+
+  eureka-server:
+    image: eureka-server
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - e-learning-network
+
+  users-service:
+    image: users-service
+    build:
+      context: ./users-service
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+      - mongodb
+    ports:
+      - "8100:8100"
+    networks:
+      - e-learning-network
+
+  resoucers-service:
+    image: resources-service
+    build:
+      context: ./resources-service
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+      - mongodb2
+    ports:
+      - "8200:8200"
+    networks:
+      - e-learning-network
+
+  lessons-service:
+    image: lessons-service
+    build:
+      context: ./lessons-service
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+      - mongodb3
+    ports:
+      - "8300:8300"
+    networks:
+      - e-learning-network
+
+  api-gateway:
+    image: api-gateway
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    depends_on:
+      - eureka-server
+    ports:
+      - "8080:8080"
+    networks:
+      - e-learning-network
+
+  react-app:
+    build:
+      context: ./react-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    networks:
+      - e-learning-network
+
+
+networks:
+  e-learning-network:
+
+volumes:
+  mongodb1:
+  mongodb2:
+  mongodb3:

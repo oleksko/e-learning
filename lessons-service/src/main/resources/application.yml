@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: lessons-service
+  data:
+    mongodb:
+      database: test_db
+      host: mongodb3
+      port: 27037
+
+server:
+  port: 8300
+
+eureka:
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://eureka-server:8761/eureka}
