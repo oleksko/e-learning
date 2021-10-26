@@ -1,5 +1,5 @@
-# ADD CONFIGURATION TO AWS
-    application.yaml to 
+# ADD CONFIGURATION TO RESOURCE-SERVICE
+    /resources-service/src/main/resources/application.properties
 ## RUN SCRIPT
     * start.sh
 
