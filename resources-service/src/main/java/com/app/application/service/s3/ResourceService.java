@@ -1,5 +1,7 @@
 package com.app.application.service.s3;
 
+import com.app.application.proxy.LessonServiceProxy;
+import com.app.application.proxy.dto.CreateLessonResponseDto;
 import com.app.domain.resource.Resource;
 import com.app.domain.resource.dto.CreateResourceResponseDto;
 import com.app.domain.resource.dto.GetResourceDto;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ResourceService {
     private final ResourceRepository resourceRepository;
+    private final LessonServiceProxy lessonServiceProxy;
     private final S3Util s3Util;
 
 
@@ -28,7 +31,23 @@ public class ResourceService {
                     byte[] data = new byte[pDataBuffer.readableByteCount()];
                     pDataBuffer.read(data);
                     path = s3Util.putObject(filename, data);
-                    return create(part, path);
+                    return create(part, "https://oleksiak-bucket.s3.eu-central-1.amazonaws.com/" + path);
+                });
+    }
+
+
+
+    public Mono<CreateResourceResponseDto> addResourcesAndLesson(FilePart part, String lessonId) {
+        System.out.println("addResourcesAndLesson");
+        return  DataBufferUtils.join(part.content())
+                .flatMap(pDataBuffer -> {
+                    String path = "";
+                    String filename = part.filename();
+                    byte[] data = new byte[pDataBuffer.readableByteCount()];
+                    pDataBuffer.read(data);
+                    path = s3Util.putObject(filename, data);
+                    System.out.println("INSIDE FLATMAP");
+                    return createAndAdd(part, "https://oleksiak-bucket.s3.eu-central-1.amazonaws.com/" + path, lessonId);
                 });
     }
 
@@ -56,6 +75,21 @@ public class ResourceService {
                 .findByName(name)
                 .map(Resource::toGetResourceDto);
     }
+
+
+    private Mono<CreateResourceResponseDto> createAndAdd(FilePart part, String path, String lessonId) {
+        System.out.println("createAndAdd");
+        var resource = Resource
+                .builder()
+                .name(part.filename())
+                .url(path)
+                .build();
+        return resourceRepository
+                .save(resource)
+                .doOnSuccess(res -> lessonServiceProxy.addResourceToLesson(lessonId, res.toCreateResourceResponseDto().getId())).map(Resource::toCreateResourceResponseDto);
+
+    }
+
 
     private Mono<CreateResourceResponseDto> create(FilePart part, String path) {
         var resource = Resource

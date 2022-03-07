@@ -9,6 +9,7 @@ public interface Validator<T> {
     Map<String, String> validate(T t);
 
     static <T> void validate(Validator<T> validator, T t) {
+        System.out.println("VALIDATOR");
         var errors = validator.validate(t);
         if (!errors.isEmpty()) {
             var message = errors

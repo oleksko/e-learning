@@ -1,8 +1,10 @@
+import * as LessonActions from "../../actions/lesson";
 
 
 const initialState = {
     lessons: [],
     userLessons: [],
+    lessonTitle: {}
 }
 
 
@@ -17,6 +19,16 @@ const LessonReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userLessons: action.payload
+            }
+        case LessonActions.ADD_LESSON:
+            return {
+                ...state,
+                lessons: action.payload
+            }
+        case LessonActions.SET_NEW_LESSON:
+            return {
+                ...state,
+                lessonTitle: action.payload
             }
         default:
             return state

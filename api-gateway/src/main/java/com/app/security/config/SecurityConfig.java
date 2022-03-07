@@ -41,6 +41,9 @@ public class SecurityConfig {
                 .pathMatchers("/users/login/**").permitAll()
                 .pathMatchers("/users/**").permitAll()
                 .pathMatchers("/lessons/**").permitAll()
+                .pathMatchers("/lessons").permitAll()
+
+                
                 .pathMatchers("/resources/**").permitAll()
 //                .pathMatchers("/users/findById/**").hasAnyRole("ADMIN")
                 .and().build();

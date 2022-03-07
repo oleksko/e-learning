@@ -25,6 +25,7 @@ public class UserService {
 
     public Mono<CreateUserResponseDto> registerUser(Mono<CreateUserDto> createUserDto) {
 
+        System.out.println("createyserDTO" + createUserDto);
         if (createUserDto == null) {
             return Mono.error(() -> new UsersServiceException("Cannot register user. Object is null"));
         }
@@ -81,6 +82,7 @@ public class UserService {
     private Mono<CreateUserResponseDto> create(CreateUserDto userDto) {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         var user = userDto.toUser();
+        System.out.println("user" + user);
 
         return userRepository
                 .save(user)

@@ -29,6 +29,8 @@ public class CreateUserDtoValidator implements Validator<CreateUserDto> {
             errors.put("password", "is not correct");
         }
 
+        System.out.println("ERR" + errors.toString());
+        System.out.println("ERRttt" + errors);
         return errors;
     }
 

@@ -36,6 +36,21 @@ public class ResourceRoutingHandlers {
     }
 
 
+    public Mono<ServerResponse> uploadSingleImageToS3Test(ServerRequest request) {
+        System.out.println("uploadSingleImageToS3Test");
+        String lessonId = request.pathVariable("lessonId");
+        System.out.println(lessonId);
+        return request.multipartData()
+                .flatMap(parts -> {
+                    Map<String, Part> part = parts.toSingleValueMap();
+                    return Mono.just((FilePart) part.get("file"));
+                })
+                .flatMap(file -> {
+                    return RoutingHandlersUtil.toServerResponse(resourceService.addResourcesAndLesson(file, lessonId), HttpStatus.ACCEPTED);
+                });
+    }
+
+
 
     public Mono<ServerResponse> getAllResources(ServerRequest serverRequest){
         return RoutingHandlersUtil.toServerResponse(resourceService.findAll().collectList(), HttpStatus.OK);

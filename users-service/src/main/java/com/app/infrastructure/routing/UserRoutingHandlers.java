@@ -19,6 +19,7 @@ public class UserRoutingHandlers {
     private final UserService userService;
 
     public Mono<ServerResponse> registerUser(ServerRequest serverRequest) {
+        System.out.println("REGISTER USER");
         Mono<CreateUserDto> registerUserRequest = serverRequest.bodyToMono(CreateUserDto.class);
         return RoutingHandlersUtil.toServerResponse(userService.registerUser(registerUserRequest), HttpStatus.CREATED);
     }

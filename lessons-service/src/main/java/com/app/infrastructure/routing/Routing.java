@@ -20,9 +20,11 @@ public class Routing {
         return nest(
                 path("/lessons"),
                 route(GET("").and(accept(MediaType.APPLICATION_JSON)), lessonRoutingHandlers::getAllLessons)
-                        .andRoute(GET("/title/{title}").and(accept(MediaType.APPLICATION_JSON)), lessonRoutingHandlers::geLessonByTitle)
+                        .andRoute(GET("/title/{title}").and(accept(MediaType.APPLICATION_JSON)), lessonRoutingHandlers::getLessonByTitle)
                         .andRoute(GET("/id/{id}").and(accept(MediaType.APPLICATION_JSON)), lessonRoutingHandlers::getLessonById)
+                        .andRoute(PUT("/id/{id}").and(accept(MediaType.APPLICATION_JSON)), lessonRoutingHandlers::updateLesson)
                         .andRoute(GET("/ids/{ids}").and(accept(MediaType.APPLICATION_JSON)), lessonRoutingHandlers::geLessonIds)
+                        .andRoute(GET("/lessonId/{lessonId}/resourceId/{resourceId}").and(accept(MediaType.APPLICATION_JSON)), lessonRoutingHandlers::addResourceToLesson)
                         .andRoute(POST("/register").and(accept(MediaType.APPLICATION_JSON)), lessonRoutingHandlers::registerLesson)
         );
     }

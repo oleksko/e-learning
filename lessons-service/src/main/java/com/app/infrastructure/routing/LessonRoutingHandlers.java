@@ -23,8 +23,24 @@ public class LessonRoutingHandlers {
 
     public Mono<ServerResponse> registerLesson(ServerRequest serverRequest) {
         Mono<CreateLessonDto> registerUserRequest = serverRequest.bodyToMono(CreateLessonDto.class);
-        return RoutingHandlersUtil.toServerResponse(lessonService.registerUser(registerUserRequest), HttpStatus.CREATED);
+        return RoutingHandlersUtil.toServerResponse(lessonService.registerLesson(registerUserRequest), HttpStatus.CREATED);
     }
+
+
+    public Mono<ServerResponse> updateLesson(ServerRequest serverRequest) {
+        Mono<CreateLessonDto> registerUserRequest = serverRequest.bodyToMono(CreateLessonDto.class);
+        String id = serverRequest.pathVariable("id");
+        System.out.println("UPDATE");
+        return RoutingHandlersUtil.toServerResponse(lessonService.updateLesson(registerUserRequest, id), HttpStatus.CREATED);
+    }
+
+
+    public Mono<ServerResponse> addResourceToLesson(ServerRequest serverRequest) {
+        String lessonId = serverRequest.pathVariable("lessonId");
+        String resourceId = serverRequest.pathVariable("resourceId");
+        return RoutingHandlersUtil.toServerResponse(lessonService.addResourceToLesson(lessonId, resourceId), HttpStatus.CREATED);
+    }
+
 
     public Mono<ServerResponse> getAllLessons(ServerRequest serverRequest){
         return RoutingHandlersUtil.toServerResponse(lessonService.findAll().collectList(), HttpStatus.OK);
@@ -35,7 +51,7 @@ public class LessonRoutingHandlers {
         return RoutingHandlersUtil.toServerResponse(lessonService.findById(id), HttpStatus.OK);
     }
 
-    public Mono<ServerResponse> geLessonByTitle(ServerRequest serverRequest) {
+    public Mono<ServerResponse> getLessonByTitle(ServerRequest serverRequest) {
         String login = serverRequest.pathVariable("title");
         var lesson = lessonService.findByTitle(login);
         return RoutingHandlersUtil.toServerResponse(lesson, HttpStatus.OK);

@@ -8,6 +8,11 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
 @SpringBootApplication
@@ -20,6 +25,14 @@ public class ResourcesServiceApplication implements ApplicationRunner {
         SpringApplication.run(ResourcesServiceApplication.class, args);
     }
 
+    @LoadBalanced
+    @Bean
+    WebClient.Builder lessonsWebClientBuilder() {
+        return WebClient
+                .builder()
+                .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .baseUrl("http://lessons-service/lessons");
+    }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

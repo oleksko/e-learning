@@ -1,4 +1,4 @@
-package com.app.security.config;
+package com.app.application.service.s3;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.CorsRegistry;
@@ -14,7 +14,6 @@ public class CorsGlobalConfiguration implements WebFluxConfigurer {
         corsRegistry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("*")
-                .allowedHeaders("*")
                 .maxAge(3600);
     }
 }

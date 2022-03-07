@@ -21,11 +21,9 @@ public class LessonService {
     private final LessonRepository lessonRepository;
 
 
-
-    public Mono<CreateLessonResponseDto> registerUser(Mono<CreateLessonDto> createLessonDto) {
-
+    public Mono<CreateLessonResponseDto> registerLesson(Mono<CreateLessonDto> createLessonDto) {
         if (createLessonDto == null) {
-            return Mono.error(() -> new LessonsServiceException("Cannot register user. Object is null"));
+            return Mono.error(() -> new LessonsServiceException("Cannot lesson user. Object is null"));
         }
 
         return createLessonDto.flatMap(
@@ -37,12 +35,87 @@ public class LessonService {
                             .hasElement()
                             .flatMap(isPresent -> {
                                 if (isPresent) {
-                                    return Mono.error(() -> new LessonsServiceException("Login already exists"));
+                                    return Mono.error(() -> new LessonsServiceException("Lesson already exists"));
                                 }
                                 return create(lessonDto);
                             });
                 }
         );
+    }
+
+
+//    public Mono<CreateLessonResponseDto> registerLessonWithResources(Mono<CreateLessonDto> createLessonDto) {
+//
+//        if (createLessonDto == null) {
+//            return Mono.error(() -> new LessonsServiceException("Cannot register lesson. Object is null"));
+//        }
+//
+//        return createLessonDto.flatMap(
+//                lessonDto -> {
+//                    Validator.validate(new CreateLessonDtoValidator(), lessonDto);
+//
+//                    return lessonRepository
+//                            .findByTitle(lessonDto.getTitle())
+//                            .hasElement()
+//                            .flatMap(isPresent -> {
+//                                if (isPresent) {
+//                                    return Mono.error(() -> new LessonsServiceException("Lesson already exists"));
+//                                }
+//                                return create(lessonDto);
+//                            });
+//                }
+//        );
+//    }
+
+
+    public Mono<CreateLessonResponseDto> updateLesson(Mono<CreateLessonDto> createLessonDto, String id) {
+        if (createLessonDto == null) {
+            return Mono.error(() -> new LessonsServiceException("Cannot update lesson. Object is null"));
+        }
+        if (id == null) {
+            return Mono.error(() -> new LessonsServiceException("Cannot update lesson. Id is null"));
+        }
+        return createLessonDto.flatMap(
+                lessonDto -> {
+                    Validator.validate(new CreateLessonDtoValidator(), lessonDto);
+
+                    return lessonRepository
+                            .findById(id)
+                            .flatMap(lesson -> {
+                                if (lesson.toGetLessonDto().getId() != null) {
+                                    return update(lesson, lessonDto);
+
+                                }
+                                return create(lessonDto);
+                            });
+                }
+        );
+    }
+
+    public Mono<CreateLessonResponseDto> addResourceToLesson(String lessonId, String resourceId) {
+        if (resourceId == null) {
+            return Mono.error(() -> new LessonsServiceException("Cannot find resource. id is null"));
+        }
+        if (lessonId == null) {
+            return Mono.error(() -> new LessonsServiceException("Cannot update lesson. Id is null"));
+        }
+
+        return lessonRepository.findById(lessonId).flatMap(lesson -> updateResource(lesson, resourceId));
+    }
+
+
+    private Mono<CreateLessonResponseDto> updateResource(Lesson lesson, String resourceId) {
+        GetLessonDto lessonDto = lesson.toGetLessonDto();
+        System.out.println(lessonDto.toString());
+        lessonDto.getResourcesIds().add(resourceId);
+        var newLesson = CreateLessonDto.builder().id(lessonDto.getId()).description(lessonDto.getDescription()).title(lessonDto.getTitle()).resourcesIds(lessonDto.getResourcesIds()).build();
+        return lessonRepository.save(newLesson.toLesson()).map(Lesson::toCreateLessonResponseDto);
+    }
+
+    private Mono<CreateLessonResponseDto> update(Lesson lesson, CreateLessonDto createLessonDto) {
+        GetLessonDto lessonDto = lesson.toGetLessonDto();
+        createLessonDto.setId(lessonDto.getId());
+        return lessonRepository.save(createLessonDto.toLesson()).map(Lesson::toCreateLessonResponseDto);
     }
 
 
@@ -65,12 +138,15 @@ public class LessonService {
     }
 
     private Mono<CreateLessonResponseDto> create(CreateLessonDto lessonDto) {
+        System.out.println("CREATE CREATE CREATE");
+        System.out.println(lessonDto.toString());
+        System.out.println("CREATE CREATE CREATE");
         return lessonRepository
                 .save(lessonDto.toLesson())
                 .map(Lesson::toCreateLessonResponseDto);
     }
 
-    public Flux<GetLessonDto> findByIds(List<String> ids){
+    public Flux<GetLessonDto> findByIds(List<String> ids) {
         return lessonRepository.findAllById(ids).map(Lesson::toGetLessonDto);
     }
 }

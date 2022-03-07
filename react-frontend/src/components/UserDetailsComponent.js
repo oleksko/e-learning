@@ -4,7 +4,7 @@ import {fetchUserInfos} from "../actions/user";
 
 
 const UserDetailsComponent = () => {
-    const userDetails = useSelector((state) => state.user.userDetails)
+    const userDetails = useSelector((state) => state.user.user)
     const {user} = useSelector((state) => state.user)
     const dispatch = useDispatch();
 

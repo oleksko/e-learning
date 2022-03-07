@@ -70,6 +70,7 @@ public class AppTokensService {
                             .claim("surname", user.getSurname())
                             .claim("email", user.getEmail())
                             .claim("role", user.getRole())
+                            .claim("lessonsIds", user.getLessonsIds())
                             .compact();
 
                     var refreshToken = Jwts

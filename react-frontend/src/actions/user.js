@@ -2,12 +2,14 @@
 
 import axios from "axios";
 import jwt from 'jwt-decode'
+import {setLessons, setUserLessons} from "./lesson";
 
 export const USER_LOADING = "USER_LOADING";
 export const USER_LOADING_END = "USER_LOADING_END";
 export const LOGIN_USER = "LOGIN_USER";
 export const SET_TOKEN = "SET_TOKEN";
 export const FETCH_USER_INFO = "FETCH_USER_INFO";
+export const REGISTER_USER = "REGISTER_USER";
 
 // export const login = (login, password) => (dispatch, getState) => {
 //     fetch('http://localhost:8100/users/login', {
@@ -66,8 +68,9 @@ export const fetchLoginUser = (user) => async (dispatch) => {
         const data = await response.data;
         console.log("==============DATA==============");
         console.log(data);
+        console.log("==============DATA==============");
         const test = jwt(data.accessToken);
-        console.log(test);
+        console.log('test', JSON.stringify(test));
         console.log("==============DATA==============");
         return [
             dispatch(loginUser(test)),
@@ -85,6 +88,17 @@ export const fetchLoginUser = (user) => async (dispatch) => {
     }
 }
 
+export const addUser = (name, login, password, passwordConfirmation, role) => async (dispatch) => {
+    try {
+        const response = await axios.post('http://localhost:8100/users/register', {name, login, password, passwordConfirmation, role})
+        const data = await response.data
+        console.log(data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 export const fetchUserInfos = () => async (dispatch) => {
     console.log("FETCH USER INFOS")
     const user = JSON.parse(localStorage.getItem("user"))
@@ -94,6 +108,37 @@ export const fetchUserInfos = () => async (dispatch) => {
         const data = await  response.data;
         console.log(data);
         dispatch(setUserInfos(data))
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const fetchUserLessons = (lessonsIds) => async (dispatch) => {
+    console.log("FETCH USER LESSONS")
+    const user = JSON.parse(localStorage.getItem("user"))
+
+    try {
+        const response = await axios.get(`http://localhost:8080/lessons/ids/${lessonsIds}`);
+        const data = await  response.data;
+        console.log('--------FETCH LESSONS DATA')
+        console.log(data);
+        console.log('--------FETCH LESSONS DATA')
+        dispatch(setUserLessons(data))
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export const fetchUserLesson = (lessonsId) => async (dispatch) => {
+    const user = JSON.parse(localStorage.getItem("user"))
+    try {
+        const response = await axios.get(`http://localhost:8080/lessons/id/${lessonsId}`);
+        const data = await  response.data;
+        console.log('--------FETCH LESSON DATA')
+        console.log(data);
+        console.log('--------FETCH LESSON DATA')
+        dispatch(setUserLessons(data))
     } catch (error) {
         console.log(error);
     }

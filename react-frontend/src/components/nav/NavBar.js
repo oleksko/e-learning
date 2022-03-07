@@ -11,6 +11,14 @@ import UserComponent from "../UserComponent";
 import UserDetailsComponent from "../UserDetailsComponent";
 import styled from 'styled-components';
 import {useDispatch, useSelector} from "../../react-redux-hooks";
+import {ADD_LESSON} from "../../actions/lesson";
+import AddLesson from "../AddLesson";
+import TestComponent from "../TestComponent";
+import ResourcesForm from "../ResourcesForm";
+import Lessons from "../Lessons";
+import LessonDetails from "../LessonDetails";
+import RegisterUser from "../RegisterUser";
+import LessonDetailsTitle from "../LessonDetailsTitle";
 
 
 export const NavContainer = styled.div`
@@ -24,7 +32,6 @@ export const NavBar = () => {
     const user = useSelector((state) => state.user.userData)
     const dispatch = useDispatch();
     const history = useHistory();
-
     return (
         <>
             {console.log("NAVBAR CONTAINER")}
@@ -43,6 +50,21 @@ export const NavBar = () => {
                                 </Link>
                             </li>
                             <li className="nav-item">
+                                <Link to={"/user"} className="nav-link">
+                                    UserDetails
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to={"/lesson"} className="nav-link">
+                                    Lesson
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to={"/addlesson"} className="nav-link">
+                                    Add Lesson
+                                </Link>
+                            </li>
+                            <li className="nav-item">
                                 <a href="/login" className="nav-link">
                                     LogOut
                                 </a>
@@ -56,8 +78,38 @@ export const NavBar = () => {
                                 </Link>
                             </li>
                             <li className="nav-item">
+                                <Link to={"/test"} className="nav-link">
+                                    test
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to={"/addLesson"} className="nav-link">
+                                    addLesson
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to={"/addResource"} className="nav-link">
+                                    ResourcesForm
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to={"/lessons"} className="nav-link">
+                                    Lessons
+                                </Link>
+                            </li>
+                            <li className="nav-item">
                                 <Link to={"/user"} className="nav-link">
                                     User
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to={"/registerUser"} className="nav-link">
+                                    registerUser
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to={"/lessonDetailsTitle"} className="nav-link">
+                                    lessonDetailsTitle
                                 </Link>
                             </li>
                         </div>
@@ -66,10 +118,16 @@ export const NavBar = () => {
                         <PrivateRoute exact path="/" component={FirstComponent}/>
                         <PrivateRoute path="/admin" roles={[Role.Admin]} component={AdminPage}/>
                         <Route path="/login" component={Login}/>
-                        <Route path="/lesson" component={LessonComponent}/>
+                        <Route path="/lessons" component={Lessons}/>
                         <Route path="/resource" component={ResourceComponent}/>
-                        <Route path="/user" component={UserComponent}/>
-                        <Route path="/userDetails" component={UserDetailsComponent}/>
+                        <Route path="/userDetails" component={UserComponent}/>
+                        <Route path="/user" component={UserDetailsComponent}/>
+                        <Route path="/addLesson" component={AddLesson}/>
+                        <Route path="/test" component={TestComponent}/>
+                        <Route path="/addResource" component={ResourcesForm}/>
+                        <Route path="/registerUser" component={RegisterUser}/>
+                        <Route path="/lessonDetails/:id" component={LessonDetails}/>
+                        <Route path="/lessonDetailsTitle/:title" component={LessonDetailsTitle}/>
                     </Switch>
                 </NavContainer>
             </Router>

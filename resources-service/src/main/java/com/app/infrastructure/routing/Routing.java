@@ -26,6 +26,7 @@ public class Routing {
                         .andRoute(GET("/id/{id}").and(accept(MediaType.APPLICATION_JSON)), resourceRoutingHandlers::getResourceById)
                         .andRoute(GET("/ids/{ids}").and(accept(MediaType.APPLICATION_JSON)), resourceRoutingHandlers::getResourceByIds)
                         .andRoute(POST("/add").and(accept(MediaType.MULTIPART_FORM_DATA)), resourceRoutingHandlers::uploadSingleImageToS3)
+                        .andRoute(POST("/add/{lessonId}").and(accept(MediaType.MULTIPART_FORM_DATA)), resourceRoutingHandlers::uploadSingleImageToS3Test)
         );
     }
 }

@@ -1,5 +1,6 @@
 package com.app.security.routing;
 
+import com.app.security.dto.CreateLessonDto;
 import com.app.security.proxy.LessonsServiceProxy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,5 +39,18 @@ public class ProxyLessonsRoutingHandlers {
         return lessonsServiceProxy
                 .findByIds(ids)
                 .flatMap(lesson -> toServerResponse(Mono.just(lesson), HttpStatus.OK));
+    }
+
+    public Mono<ServerResponse> create(ServerRequest serverRequest) {
+        System.out.println("CREATE LESSON");
+        Mono<CreateLessonDto>  createLessonDtoMono = serverRequest.bodyToMono(CreateLessonDto.class);
+        System.out.println("CREATE LESSON 2");
+        return lessonsServiceProxy
+                .createLessonTest(createLessonDtoMono)
+                .flatMap(lesson -> toServerResponse(Mono.just(lesson), HttpStatus.OK));
+    }
+
+    public Mono<ServerResponse> getLessons(ServerRequest serverRequest) {
+        return lessonsServiceProxy.getLessons().flatMap(lesson -> toServerResponse(Mono.just(lesson), HttpStatus.OK));
     }
 }

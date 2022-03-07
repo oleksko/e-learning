@@ -3,17 +3,11 @@ import * as UserActions from "../../actions/user";
 const initialState = {
     loadingUser: false,
     errorUser: null,
-    userData: '',
     user: JSON.parse(localStorage.getItem("user")) || {},
     token: JSON.parse(localStorage.getItem("token")) || {},
-    userDetails: []
 }
 
 const userReducer = (state = initialState , action) => {
-    console.log("USER REDUCER")
-    console.log(action)
-    console.log(state.userData)
-    console.log("USER REDUCER")
     switch (action.type) {
         case UserActions.LOGIN_USER:
             return {
@@ -35,10 +29,9 @@ const userReducer = (state = initialState , action) => {
                 ...state,
                 loadingUser: false,
             };
-        case UserActions.FETCH_USER_INFO:
+        case UserActions.REGISTER_USER:
             return {
-                ...state,
-                userDetails:  action.payload
+                ...state
             }
         default:
             return state;
