@@ -39,7 +39,7 @@ public class UsersServiceApplication implements ApplicationRunner {
                 .id("0asd")
                 .name("name")
                 .surname("surname")
-                .login("login")
+                .login("admin")
                 .role(Role.ROLE_ADMIN)
                 .password(passwordEncoder.encode("123"))
                 .lessonsIds(Arrays.asList("1less", "2less"))
@@ -51,17 +51,30 @@ public class UsersServiceApplication implements ApplicationRunner {
                 .id("1asd")
                 .name("name1")
                 .surname("surname1")
-                .login("login1")
+                .login("student")
                 .role(Role.ROLE_STUDENT)
+                .password(passwordEncoder.encode("123"))
+                .lessonsIds(Arrays.asList("1less", "2less"))
+                .email("test@test.pl")
+                .build();
+
+        var user2 = User
+                .builder()
+                .id("534asd")
+                .name("name1")
+                .surname("surname1")
+                .login("teacher")
+                .role(Role.ROLE_TEACHER)
                 .password(passwordEncoder.encode("123"))
                 .lessonsIds(Arrays.asList("1less", "2less", "3less"))
                 .email("test@test.pl")
                 .build();
 
 
+
         userRepository.deleteAll()
                 .thenMany(
-                        Flux.just(user, user1))
+                        Flux.just(user, user1, user2))
                                 .flatMap(this.userRepository::save)
                                 .thenMany(this.userRepository.findAll())
                                 .subscribe(u -> log.info(u.toString()));

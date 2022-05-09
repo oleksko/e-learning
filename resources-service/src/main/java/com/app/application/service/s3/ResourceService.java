@@ -31,7 +31,7 @@ public class ResourceService {
                     byte[] data = new byte[pDataBuffer.readableByteCount()];
                     pDataBuffer.read(data);
                     path = s3Util.putObject(filename, data);
-                    return create(part, "https://oleksiak-bucket.s3.eu-central-1.amazonaws.com/" + path);
+                    return create(part, "https://filestestbucket.s3.eu-central-1.amazonaws.com/" + path);
                 });
     }
 
@@ -47,7 +47,7 @@ public class ResourceService {
                     pDataBuffer.read(data);
                     path = s3Util.putObject(filename, data);
                     System.out.println("INSIDE FLATMAP");
-                    return createAndAdd(part, "https://oleksiak-bucket.s3.eu-central-1.amazonaws.com/" + path, lessonId);
+                    return createAndAdd(part, "https://filestestbucket.s3.eu-central-1.amazonaws.com/" + path, lessonId);
                 });
     }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import {useSelector} from "../react-redux-hooks";
-import {fetchUserInfos} from "../actions/user";
+import {fetchUserInfos} from "../redux/actions/user-actions";
 
 const UserComponent = () => {
 

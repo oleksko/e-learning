@@ -42,21 +42,21 @@ public class ResourcesServiceApplication implements ApplicationRunner {
                 .builder()
                 .id("1res")
                 .name("res1")
-                .url("https://oleksiak-bucket.s3.eu-central-1.amazonaws.com/files/6797237bb0794c2e8c1310d4b0868c0atest.jpg")
+                .url("https://filestestbucket.s3.eu-central-1.amazonaws.com/files/1ac7ecf9809545669d963635773ff36btest.jpg")
                 .build();
 
         var resource2 = Resource
                 .builder()
                 .id("2res")
                 .name("res2")
-                .url("https://oleksiak-bucket.s3.eu-central-1.amazonaws.com/files/2a319417e9564105aa9664b342bf31e4test.jpg")
+                .url("https://filestestbucket.s3.eu-central-1.amazonaws.com/files/1ac7ecf9809545669d963635773ff36btest.jpg")
                 .build();
 
         var resource3 = Resource
                 .builder()
                 .id("3res")
                 .name("res3")
-                .url("https://oleksiak-bucket.s3.eu-central-1.amazonaws.com/files/2950082a749b4866800801976d98c6a6test.jpg")
+                .url("https://filestestbucket.s3.eu-central-1.amazonaws.com/files/1ac7ecf9809545669d963635773ff36btest.jpg")
                 .build();
 
 

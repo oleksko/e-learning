@@ -1,38 +1,34 @@
 import React from "react";
 import {useHistory} from "react-router-dom";
-import {fetchLoginUser} from "../redux/actions/user-actions";
-import {useDispatch} from "../react-redux-hooks";
+import {useDispatch} from "react-redux";
+import {fetchLoginUser} from "../../redux/thunks/user-thunks";
+
+
 
 const Login = ({register}) => {
 
     const initialState = {
-        login: "login1",
+        login: "student",
         password: "123",
     };
 
-    const [{login, password}, setInput] = React.useState(initialState);
+    const [login, setLogin] = React.useState(initialState);
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const handleChange = (e) => {
-        console.log(e.target.value)
-        const {login, value} = e.target
-        e.persist()
-        setInput((prevState) => ({
-            ...prevState,
-            [e.target.login]: e.target.value,
-        }));
+    const handleChange = (event) => {
+        const {name, value} = event.target;
+        setLogin({...login, [name]: value});
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await dispatch(fetchLoginUser({login, password}));
+        await dispatch(fetchLoginUser(login));
         history.push("/");
     };
 
 
-    return  (
-
+    return (
         <div className="container mt-5">
             <form onSubmit={handleSubmit}>
                 <div className="form-group row">
@@ -42,7 +38,7 @@ const Login = ({register}) => {
                             type="login"
                             id="login"
                             required
-                            value={login}
+                            value={login.login}
                             onChange={handleChange}
                             name="login"
                         />
@@ -55,7 +51,7 @@ const Login = ({register}) => {
                             type="password"
                             id="password"
                             required
-                            value={password}
+                            value={login.password}
                             onChange={handleChange}
                             name="password"
                         />

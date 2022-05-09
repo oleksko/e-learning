@@ -80,6 +80,7 @@ public class UserService {
     }
 
     private Mono<CreateUserResponseDto> create(CreateUserDto userDto) {
+        System.out.println(userDto);
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         var user = userDto.toUser();
         System.out.println("user" + user);

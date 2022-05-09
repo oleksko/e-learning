@@ -31,6 +31,7 @@ public class CreateUserDto {
                 .login(login)
                 .email(email)
                 .role(role)
+                .password(password)
                 .lessonsIds(lessonsIds)
                 .build();
     }

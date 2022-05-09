@@ -1,144 +1,181 @@
-import React, {useEffect} from "react";
-import {Redirect, Route, BrowserRouter as Router, Switch, NavLink, useHistory, Link} from "react-router-dom";
-import Login from "../../rubbish/Login";
-import {AdminPage} from "../AdminPage";
-import FirstComponent from "../AdminComponent";
-import App from "../../rubbish/App";
-import LessonComponent from "../LessonComponent";
-import ResourceComponent from "../ResourceComponent";
-import UsersComponent from "../../rubbish/UsersComponent";
-import UserComponent from "../UserComponent";
-import UserDetailsComponent from "../UserDetailsComponent";
-import styled from 'styled-components';
-import {useDispatch, useSelector} from "../../react-redux-hooks";
-import {ADD_LESSON} from "../../actions/lesson";
-import AddLesson from "../AddLesson";
-import TestComponent from "../TestComponent";
-import ResourcesForm from "../ResourcesForm";
-import Lessons from "../Lessons";
-import LessonDetails from "../LessonDetails";
-import RegisterUser from "../RegisterUser";
-import LessonDetailsTitle from "../LessonDetailsTitle";
-
-
-export const NavContainer = styled.div`
-  background-color: #888;
-
-`;
+import React from "react";
+import {Link, Redirect, Route} from "react-router-dom";
+import {useSelector} from "../../react-redux-hooks";
+import "./NavBar.css"
+import {useDispatch} from "react-redux";
+import {logout} from "../../redux/thunks/user-thunks";
 
 
 export const NavBar = () => {
 
     const user = useSelector((state) => state.user.userData)
     const dispatch = useDispatch();
-    const history = useHistory();
+
+    const handleLogout = () => {
+        dispatch(logout());
+    }
+
+
+    let nav;
+    //TODO REFACTOR NAVBAR
+    if (Object.keys(user).length === 0) {
+        nav = (
+            <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                    <a href="/login">
+                        <span className="nav-link pl-5 pr-5">Login</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <Link to={"/registerUser"}>
+                        <span className="nav-link pl-5 pr-5">Register</span>
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link to={"/lessons"}>
+                        <span className="nav-link pl-5 pr-5">Lessons</span>
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link to={"/contact"}>
+                        <span className="nav-link pl-5 pr-5">Contact</span>
+                    </Link>
+                </li>
+            </ul>
+        )
+    } else if (user.role === 'ROLE_STUDENT') {
+        nav = (
+            <>
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link to={"/profile"}>
+                            <span className="nav-link pl-5 pr-5">{user.name}</span>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to={"/userLessons"}>
+                            <span className="nav-link pl-5 pr-5">User Lessons</span>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to={"/lessons"}>
+                            <span className="nav-link pl-5 pr-5">Lessons</span>
+                        </Link>
+                    </li>
+                </ul>
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link to={"/"} onClick={handleLogout}>
+                            <span className="nav-link pl-5 pr-5">Logout</span>
+                        </Link>
+                    </li>
+                </ul>
+            </>
+        )
+
+    } else if (user.role === 'ROLE_ADMIN') {
+        nav = (
+            <>
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link to={"/profile"}>
+                            <span className="nav-link pl-5 pr-5">{user.name}</span>
+                        </Link>
+                    </li>
+                    {/*TODO LESSONS TO EDIT*/}
+                    <li className="nav-item">
+                        <Link to={"/lessons"}>
+                            <span className="nav-link pl-5 pr-5">Lessons</span>
+                        </Link>
+                    </li>
+                    {/*TODO USERS TO EDIT*/}
+                    <li className="nav-item">
+                        <Link to={"/users"}>
+                            <span className="nav-link pl-5 pr-5">Users</span>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to={"/addLesson"}>
+                            <span className="nav-link pl-5 pr-5">Add Lesson</span>
+                        </Link>
+                    </li>
+                    {/*TODO ADD RESOURCE ????*/}
+                    <li className="nav-item">
+                        <Link to={"/addResource"}>
+                            <span className="nav-link pl-5 pr-5">Add Resource</span>
+                        </Link>
+                    </li>
+                </ul>
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link to={"/"} onClick={handleLogout}>
+                            <span className="nav-link pl-5 pr-5">Logout</span>
+                        </Link>
+                    </li>
+                </ul>
+            </>
+        )
+    } else if (user.role === 'ROLE_TEACHER') {
+        nav = (
+            <>
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link to={"/profile"}>
+                            <span className="nav-link pl-5 pr-5">{user.name}</span>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to={"/"} onClick={handleLogout}>
+                            <span className="nav-link pl-5 pr-5">Logout</span>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to={"/lessons"}>
+                            <span className="nav-link pl-5 pr-5">Lessons</span>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to={"/addLesson"}>
+                            <span className="nav-link pl-5 pr-5">Add Lesson</span>
+                        </Link>
+                    </li>
+                    {/*TODO ADD RESOURCE ????*/}
+                    <li className="nav-item">
+                        <Link to={"/addResource"}>
+                            <span className="nav-link pl-5 pr-5">Add Resource</span>
+                        </Link>
+                    </li>
+                </ul>
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <Link to={"/"} onClick={handleLogout}>
+                            <span className="nav-link pl-5 pr-5">Logout</span>
+                        </Link>
+                    </li>
+                </ul>
+            </>
+        )
+    }
+
     return (
         <>
-            {console.log("NAVBAR CONTAINER")}
-            {console.log(user)}
-            {console.log("NAVBAR CONTAINER")}
-            <Router history={history}>
-                <NavContainer>
-                    {/*<NavLink to="/" exact>Home</NavLink>*/}
-                    {/*<NavLink to="/admin">Admin</NavLink>*/}
-                    {/*{user ? (user.role === 'ROLE_STUDENT' ?   <NavLink to="/userDetails">User Details</NavLink> :  <NavLink to="/user">User</NavLink>}*/}
-                    {user && Object.keys(user) ? (
-                        <div className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <Link to={"/profile"} className="nav-link">
-                                    {user.name}
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/user"} className="nav-link">
-                                    UserDetails
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/lesson"} className="nav-link">
-                                    Lesson
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/addlesson"} className="nav-link">
-                                    Add Lesson
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <a href="/login" className="nav-link">
-                                    LogOut
-                                </a>
-                            </li>
-                        </div>
-                    ) : (
-                        <div className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <Link to={"/login"} className="nav-link">
-                                    Login
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/test"} className="nav-link">
-                                    test
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/addLesson"} className="nav-link">
-                                    addLesson
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/addResource"} className="nav-link">
-                                    ResourcesForm
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/lessons"} className="nav-link">
-                                    Lessons
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/user"} className="nav-link">
-                                    User
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/registerUser"} className="nav-link">
-                                    registerUser
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/lessonDetailsTitle"} className="nav-link">
-                                    lessonDetailsTitle
-                                </Link>
-                            </li>
-                        </div>
-                    )}
-                    <Switch>
-                        <PrivateRoute exact path="/" component={FirstComponent}/>
-                        <PrivateRoute path="/admin" roles={[Role.Admin]} component={AdminPage}/>
-                        <Route path="/login" component={Login}/>
-                        <Route path="/lessons" component={Lessons}/>
-                        <Route path="/resource" component={ResourceComponent}/>
-                        <Route path="/userDetails" component={UserComponent}/>
-                        <Route path="/user" component={UserDetailsComponent}/>
-                        <Route path="/addLesson" component={AddLesson}/>
-                        <Route path="/test" component={TestComponent}/>
-                        <Route path="/addResource" component={ResourcesForm}/>
-                        <Route path="/registerUser" component={RegisterUser}/>
-                        <Route path="/lessonDetails/:id" component={LessonDetails}/>
-                        <Route path="/lessonDetailsTitle/:title" component={LessonDetailsTitle}/>
-                    </Switch>
-                </NavContainer>
-            </Router>
-
+            <div className="container-fluid bg-black">
+                <nav id="navbar-main" className={`container navbar navbar-expand-lg bg-black text-white `}
+                     style={{fontSize: "18px"}}>
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        {nav}
+                    </div>
+                </nav>
+            </div>
         </>
     )
 }
 
+
 export const Role = {
     Admin: 'Admin',
-    User: 'User'
+    Teacher: 'Teacher',
+    Student: 'Student'
 }
 
 export const PrivateRoute = ({component: Component, roles, ...rest}) => (

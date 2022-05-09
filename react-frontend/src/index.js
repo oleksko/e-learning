@@ -1,21 +1,27 @@
 import React from "react";
 import ReactDOM from 'react-dom';
-import FirstComponent from "./components/AdminComponent";
 import {Provider} from "react-redux";
-import App from "./rubbish/App";
-import store, {history} from "./stores/store";
-import {Router} from "react-router-dom";
-import {ConnectedRouter} from "connected-react-router";
-import {NavBar} from "./components/nav/NavBar";
-import TestAppNavbar from "./rubbish/Navbar/TestAppNavbar";
-import {MainComponent} from "./components/MainComponent";
+import store from "./store";
+import {BrowserRouter} from "react-router-dom";
+import App from "./App";
+
 
 ReactDOM.render(
-        <Provider store={store}>
-            {/*<Router>*/}
-                {/*    <TestAppNavbar/>*/}
-                <NavBar/>
-            {/*</Router>*/}
-        </Provider>
+    <Provider store={store}>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
+    </Provider>
     ,
     document.getElementById('root'));
+
+
+// FIXME:
+//  - rejestracja uzytkownika
+//  - panel studenta
+//  - panel admina
+//  - panel prowadzacego
+//  - dodwania lekcji
+//  - dodwania resourcu
+//  - dodwanaie lekcji i resource
+//  - https://github.com/bottega-code-school/prop-management/blob/master/src/reducers/authReducer.js
