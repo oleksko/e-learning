@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!//bin/bash
 
 #echo "HELLO"
 #ls -l

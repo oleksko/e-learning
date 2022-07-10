@@ -2,6 +2,7 @@ import * as LessonActions from "../actions/lesson-actions";
 
 
 const initialState = {
+    newLesson: {},
     lessons: [],
     userLessons: [],
     lessonTitle: {}
@@ -20,10 +21,11 @@ const LessonReducers = (state = initialState, action) => {
                 ...state,
                 userLessons: action.payload
             }
+        //    TODO USUWA WCZESNIEJSZE LEKCJE
         case LessonActions.ADD_LESSON:
             return {
                 ...state,
-                lessons: action.payload
+                newLesson: action.payload
             }
         case LessonActions.SET_NEW_LESSON:
             return {

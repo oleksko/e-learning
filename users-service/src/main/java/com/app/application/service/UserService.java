@@ -66,8 +66,8 @@ public class UserService {
     }
 
 
-//    TODO UPDATE LESSON AND ADD EXCEPTIONS
-    public Mono<GetUserDto> update(String userId, String lessonId){
+    //    TODO UPDATE LESSON AND ADD EXCEPTIONS
+    public Mono<GetUserDto> updateLesson(String userId, String lessonId) {
         return userRepository.findById(userId)
                 .flatMap(userDB -> {
                     var user = userDB.toUpdateUserDto();
@@ -76,6 +76,41 @@ public class UserService {
                     user.setLessonsIds(lessonsIds);
                     var userToDb = user.toUser();
                     return userRepository.save(userToDb).map(User::toGetUserDto);
+                });
+    }
+
+
+    public Mono<CreateUserResponseDto> updateUser(String userId, Mono<CreateUserDto> updateUser) {
+        System.out.println("HERE 2");
+
+        if (updateUser == null) {
+            return Mono.error(() -> new UsersServiceException("Cannot update user. Object is null"));
+        }
+
+        return updateUser.flatMap(
+                userDto -> userRepository
+                        .findByLogin(userDto.getLogin())
+                        .hasElement()
+                        .flatMap(isPresent -> {
+                            if (isPresent) {
+                                return Mono.error(() -> new UsersServiceException("Login already exists"));
+                            }
+                            return update(userId, userDto);
+                        })
+        );
+
+    }
+
+
+    private Mono<CreateUserResponseDto> update(String userId, CreateUserDto userDto) {
+        return userRepository.findById(userId)
+                .flatMap(userDB -> {
+                    var user = userDB.toUpdateUserDto();
+                    user.setName(userDto.getName());
+                    user.setSurname(userDto.getSurname());
+                    user.setEmail(userDto.getEmail());
+                    user.setRole(userDto.getRole());
+                    return userRepository.save(user.toUser()).map(User::toCreateUserResponseDto);
                 });
     }
 

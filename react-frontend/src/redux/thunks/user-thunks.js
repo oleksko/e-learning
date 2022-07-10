@@ -17,13 +17,16 @@ export const fetchLoginUser = (user) => async (dispatch) => {
         const response = await axios.post("http://localhost:8080/login", user);
         const data = await response.data;
         const decodedToken = jwt(data.accessToken);
+        console.log('decoded token')
+        console.log(decodedToken)
+        console.log('decoded token')
         return [
             dispatch(loginUser(decodedToken)),
             dispatch(userLoadingEnd()),
             dispatch(setToken(data.accessToken)),
             dispatch(fetchUserLessons(decodedToken.lessonsIds)),
             localStorage.setItem("token", JSON.stringify(data.accessToken)),
-            localStorage.setItem("user", JSON.stringify(test)),
+            localStorage.setItem("user", JSON.stringify(data)),
         ]
     } catch (error) {
         return [
@@ -45,6 +48,21 @@ export const addUser = (name, surname, email, login, password, passwordConfirmat
             role
         })
         const data = await response.data
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const updateUser = (id, name, surname, email, role) => async (dispatch) => {
+    try {
+        const response = await axios.put(`http://localhost:8080/users/update/userId/${id}`, {
+            name,
+            surname,
+            email,
+            role
+        })
+        dispatch(fetchAllUsers());
     } catch (error) {
         console.log(error)
     }
@@ -99,3 +117,19 @@ export const logout = () => async (dispatch) => {
     dispatch(removeUserData());
     dispatch(logoutSuccess());
 };
+
+
+export const addLessonToUser = (user, lesson) => async (dispatch) =>{
+    console.log(user)
+    console.log(`http://localhost:8100/users/update/userId/${user.id}/lessonId/${lesson}`)
+    try {
+        const response = await axios.put('http://localhost:8080/users/update/userId/1asd/lessonId/3less');
+        const data = await response.data;
+        console.log('-------------')
+        console.log(data)
+        console.log('-------------')
+    } catch (error) {
+        console.log(error)
+    }
+
+}

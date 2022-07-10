@@ -1,7 +1,4 @@
-import async from "async";
-import axios from "axios";
 import React from 'react';
-import {push} from "connected-react-router";
 
 export const FETCH_ALL_LESSONS = "FETCH_ALL_LESSONS";
 export const FETCH_USER_LESSONS = "FETCH_USER_LESSONS";
@@ -17,9 +14,8 @@ export  const setUserLessons = (ids) => ({
 })
 
 
-export const addLesson = (lesson) => ({
+export const addLesson = () => ({
     type: ADD_LESSON,
-    payload: lesson
 })
 
 export const setLessons = (lessons) => ({

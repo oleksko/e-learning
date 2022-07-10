@@ -25,7 +25,7 @@ const AddLesson = () => {
 
     const submitLesson = () => {
         const {title, description, resourcesIds} = lesson;
-        dispatch(createLesson(title, description, resourcesIds)).then(data => console.log(data));
+        dispatch(createLesson(title, description, resourcesIds));
         setSubmitted(true);
     }
 
@@ -34,7 +34,7 @@ const AddLesson = () => {
         <div className="container mt-5">
             {submitted ? (<div>
                         <h4>You submitted successfully! </h4>
-                        <Link to={`/lessonDetailsTitle/${lesson.title}`}> Add resource to lesson!</Link>
+                        <Link to={{pathname: `/addResource/${lesson.title}`, state: lesson}}> Add resource to lesson!</Link>
                     </div>
                 ) :
                 <>

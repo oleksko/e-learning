@@ -41,15 +41,12 @@ public class LessonsServiceProxy {
 
 
     public Mono<CreateLessonResponseDto> createLessonTest(Mono<CreateLessonDto> createLessonDtoMono) {
-        return createLessonDtoMono.flatMap(lesson -> {
-                    System.out.println(lesson);
-                    return create(lesson);
-                }
+        return createLessonDtoMono.flatMap(lesson -> create(lesson)
         );
     }
 
-//    TODO ADD ERRO HANDLING/MAPPING
-    public Mono<CreateLessonResponseDto> create(CreateLessonDto createLessonDto){
+    //    TODO ADD ERRO HANDLING/MAPPING
+    public Mono<CreateLessonResponseDto> create(CreateLessonDto createLessonDto) {
         System.out.println("==================");
         System.out.println(createLessonDto.toString());
         System.out.println("==================");
@@ -62,8 +59,7 @@ public class LessonsServiceProxy {
                     if (response.statusCode().equals(HttpStatus.CREATED)) {
                         System.out.println("OK");
                         return response.bodyToMono(CreateLessonResponseDto.class);
-                    }
-                    else {
+                    } else {
                         System.out.println("NOT OK");
                         System.out.println(response.toString());
                         return response.createException().flatMap(Mono::error);
@@ -80,8 +76,6 @@ public class LessonsServiceProxy {
 //                })
 //                .bodyToMono(CreateLessonResponseDto.class);
     }
-
-
 
 
 //    public Mono<CreateLessonResponseDto> createLesson(Mono<CreateLessonDto> createLessonDtoMono) {
@@ -112,7 +106,6 @@ public class LessonsServiceProxy {
 //
 
 
-
     public Mono<GetLessonDto[]> findByIds(String ids) {
         return webClient
                 .get()
@@ -129,4 +122,26 @@ public class LessonsServiceProxy {
                 .bodyToMono(GetLessonDto[].class);
     }
 
+    public Mono<CreateLessonResponseDto> updateLesson(String id, Mono<CreateLessonDto> createLessonDtoMono) {
+        return createLessonDtoMono.flatMap(lesson -> update(id, lesson));
+    }
+
+    private Mono<CreateLessonResponseDto> update(String id, CreateLessonDto lesson) {
+
+        return webClient
+                .put()
+                .uri("/id/{id}", id)
+                .body(fromValue(lesson))
+//                .body(createLessonDto)
+                .exchangeToMono(response -> {
+                    if (response.statusCode().equals(HttpStatus.CREATED)) {
+                        System.out.println("OK");
+                        return response.bodyToMono(CreateLessonResponseDto.class);
+                    } else {
+                        System.out.println("NOT OK");
+                        System.out.println(response.toString());
+                        return response.createException().flatMap(Mono::error);
+                    }
+                });
+    }
 }

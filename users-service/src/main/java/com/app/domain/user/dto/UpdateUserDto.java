@@ -30,6 +30,7 @@ public class UpdateUserDto {
                 .id(id)
                 .name(name)
                 .surname(surname)
+                .password(password)
                 .login(login)
                 .email(email)
                 .role(role)

@@ -83,3 +83,6 @@ public class UsersServiceApplication implements ApplicationRunner {
         log.info("saved to database");
     }
 }
+
+
+//TODO nowy uzytkownik ma pusta liste lekcji i zwraca "Cannot invoke "java.util.List.add(Object)" because "lessonsIds" is null"

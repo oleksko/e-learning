@@ -1,18 +1,30 @@
 import React from 'react';
 import {useSelector} from "../../react-redux-hooks";
-import Resource from "../Resources/ResourceList";
 import ResourceList from "../Resources/ResourceList";
-import ResourceAddToLesson from "../Resources/ResourceAddToLesson";
+import {Link} from "react-router-dom";
 
 
 const LessonDetails = ({match}) => {
 
-    const  {id} = match.params
+    const {id} = match.params
 
+    const user = useSelector((state) => state.user.userData)
 
     const lesson = useSelector(state =>
         state.lesson.userLessons.find(lesson => lesson.id === id)
     )
+
+    let links;
+    if (Object.keys(user).length === 0) {
+        links = null
+    } else if (user.role === 'ROLE_ADMIN' || user.role === 'ROLE_TEACHER') {
+        links = (
+            <>
+                <Link to={`/editLesson/${lesson.id}`} className="btn btn-success mx-3"> Edit </Link>
+                <Link to={`/addResource/${lesson.title}`} className="btn btn-success mx-3"> Add resource </Link>
+            </>
+        )
+    }
 
     if (!lesson) {
         return (
@@ -31,6 +43,7 @@ const LessonDetails = ({match}) => {
                 </div>
             </div>
             <ResourceList resourcesIds={lesson.resourcesIds}/>
+            {links}
         </div>
     )
 }

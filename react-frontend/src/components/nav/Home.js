@@ -1,5 +1,5 @@
 import React from "react";
-import CarouselSlider from "./Carousel/CarouselSlider";
+import CarouselSlider from "../Carousel/CarouselSlider";
 
 const Home = () => {
 

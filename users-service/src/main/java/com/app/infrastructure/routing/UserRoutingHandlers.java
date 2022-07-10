@@ -39,10 +39,16 @@ public class UserRoutingHandlers {
         return RoutingHandlersUtil.toServerResponse(user, HttpStatus.OK);
     }
 
-    public Mono<ServerResponse> update(ServerRequest serverRequest){
+    public Mono<ServerResponse> addLesson(ServerRequest serverRequest){
         String lessonId = serverRequest.pathVariable("lessonId");
         String userId = serverRequest.pathVariable("userId");
-        return RoutingHandlersUtil.toServerResponse(userService.update(userId, lessonId), HttpStatus.OK);
+        return RoutingHandlersUtil.toServerResponse(userService.updateLesson(userId, lessonId), HttpStatus.OK);
+    }
+
+    public Mono<ServerResponse> updateUser(ServerRequest serverRequest){
+        String userId = serverRequest.pathVariable("userId");
+        Mono<CreateUserDto> updateUserRequest = serverRequest.bodyToMono(CreateUserDto.class);
+        return RoutingHandlersUtil.toServerResponse(userService.updateUser(userId, updateUserRequest), HttpStatus.OK);
     }
 
 }

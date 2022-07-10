@@ -23,7 +23,8 @@ public class Routing {
                         .andRoute(GET("/login/{login}").and(accept(MediaType.APPLICATION_JSON)), userRoutingHandlers::getUserByLogin)
                         .andRoute(GET("/id/{id}").and(accept(MediaType.APPLICATION_JSON)), userRoutingHandlers::getUserById)
                         .andRoute(POST("/register").and(accept(MediaType.APPLICATION_JSON)), userRoutingHandlers::registerUser)
-                        .andRoute(PUT("/update/userId/{userId}/lessonId/{lessonId}").and(accept(MediaType.APPLICATION_JSON)), userRoutingHandlers::update)
+                        .andRoute(PUT("/update/userId/{userId}").and(accept(MediaType.APPLICATION_JSON)), userRoutingHandlers::updateUser)
+                        .andRoute(PUT("/update/userId/{userId}/lessonId/{lessonId}").and(accept(MediaType.APPLICATION_JSON)), userRoutingHandlers::addLesson)
         );
     }
 }

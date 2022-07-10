@@ -38,7 +38,7 @@ const UserList = () => {
                                 <th>{user.role}</th>
                                 <th>{user.login}</th>
                                 <th>
-                                    <Link to={`/account/admin/users/${user.id}`}>Show more</Link>
+                                    <Link to={`/editUser/${user.id}`}  className="btn btn-success mx-3"> Edit </Link>
                                 </th>
                             </tr>
                         );

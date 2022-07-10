@@ -66,6 +66,7 @@ public class AppTokensService {
                             .setIssuedAt(currentDate)
                             .signWith(secretKey)
                             .claim("login", user.getLogin())
+                            .claim("id", user.getId())
                             .claim("name", user.getName())
                             .claim("surname", user.getSurname())
                             .claim("email", user.getEmail())

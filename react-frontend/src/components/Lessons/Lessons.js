@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from "../../react-redux-hooks";
 import {Link} from "react-router-dom";
 import {fetchLessons} from "../../redux/thunks/lesson-thunks";
 import {Button} from "react-bootstrap";
+import {addLessonToUser} from "../../redux/thunks/user-thunks";
 
 
 const Lessons = () => {
@@ -14,14 +15,53 @@ const Lessons = () => {
 
     React.useEffect(() => {
         dispatch(fetchLessons());
-    }, [dispatch]);
+    }, []);
 
 
     //TODO ADD LESSON TO USER DISPATCH INFOS
-    const handleClick = (lessonId) => {
-        console.log('=============')
-        console.log(lessonId)
-        console.log('=============')
+    const handleRemoveLesson = (lessonId) => {
+        console.log('remove lesson with id: ' + lessonId)
+    }
+
+    const handleSubscribe = (lessonId) => {
+        dispatch(addLessonToUser(user, lessonId));
+    }
+
+
+    const buttonPanel = (user, lesson) => {
+        if (user.role === 'ROLE_STUDENT')
+            return (
+                <>
+                    {user.lessonsIds.includes(lesson.id) ? <th><p className="btn btn-dark mx-3">Subscribed</p></th> :
+                        <th>
+                            <Button onClick={() => handleSubscribe(lesson.id)}
+                                    className="btn btn-success mx-3">
+                                Subscribe
+                            </Button>
+                        </th>
+                    }
+                </>
+            )
+        else if (user.role === 'ROLE_ADMIN')
+            return (
+                <>
+                    <th>
+                        <Link to={`/LessonDetails/${lesson.id}`} className="btn btn-success mx-3"> Details </Link>
+                        <Button onClick={() => handleRemoveLesson(lesson.id)}
+                                className="btn btn-success mx-3">
+                            Remove
+                        </Button>
+                    </th>
+                </>
+            )
+        else if (user.role === 'ROLE_TEACHER')
+            return (
+                <>
+                    <th>
+                        <Link to={`/lessonDetails/${lesson.id}`} className="btn btn-success mx-3"> Details </Link>
+                    </th>
+                </>
+            )
     }
 
     return (
@@ -44,12 +84,8 @@ const Lessons = () => {
                                 <th>{lesson.title}</th>
                                 <th>{lesson.description}</th>
                                 {Object.keys(user).length !== 0 ?
-                                    <th>
-                                        <Button onClick={() => handleClick(lesson.id)} className="btn btn-dark mx-3">
-                                            Save
-                                        </Button>
-                                    </th>
-                                    : null}
+                                    buttonPanel(user, lesson) : null
+                                }
                             </tr>
                         )
                     })}

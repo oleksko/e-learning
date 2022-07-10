@@ -30,7 +30,6 @@ public class LessonRoutingHandlers {
     public Mono<ServerResponse> updateLesson(ServerRequest serverRequest) {
         Mono<CreateLessonDto> registerUserRequest = serverRequest.bodyToMono(CreateLessonDto.class);
         String id = serverRequest.pathVariable("id");
-        System.out.println("UPDATE");
         return RoutingHandlersUtil.toServerResponse(lessonService.updateLesson(registerUserRequest, id), HttpStatus.CREATED);
     }
 

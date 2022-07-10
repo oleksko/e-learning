@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @EqualsAndHashCode
 @ToString
 @Builder
-@Document(collection = "resources")
+@Document(collection = "src/main/resources")
 public class ResourceEntity{
     @Id
     private String id;

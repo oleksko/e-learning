@@ -17,11 +17,12 @@ ReactDOM.render(
 
 
 // FIXME:
-//  - rejestracja uzytkownika
-//  - panel studenta
+//  - https://blog.openreplay.com/the-transition-from-higher-order-component-pattern-to-react-hooks-pattern
 //  - panel admina
 //  - panel prowadzacego
-//  - dodwania lekcji
-//  - dodwania resourcu
-//  - dodwanaie lekcji i resource
 //  - https://github.com/bottega-code-school/prop-management/blob/master/src/reducers/authReducer.js
+//  - edytowanie profilu (?)
+//  - dodanie logiki zasubskrybowania lekcji
+//  - ADD RESOURCE tylko w momencie edytowania lekcji
+//  - LessonDetails może uprościć i wyciagnac do 1 komponentu (?HOC?)
+//  - EDIT Lesson

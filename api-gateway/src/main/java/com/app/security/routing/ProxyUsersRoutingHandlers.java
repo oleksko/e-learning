@@ -1,5 +1,7 @@
 package com.app.security.routing;
 
+import com.app.security.dto.CreateLessonDto;
+import com.app.security.dto.CreateUserDto;
 import com.app.security.proxy.LessonsServiceProxy;
 import com.app.security.proxy.UsersServiceProxy;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,19 @@ public class ProxyUsersRoutingHandlers {
         return usersServiceProxy
                 .findByLogin(login)
                 .flatMap(user -> toServerResponse(Mono.just(user), HttpStatus.OK));
+    }
+
+    public Mono<ServerResponse> addLesson(ServerRequest serverRequest) {
+        String userId = serverRequest.pathVariable("userId");
+        String lessonId = serverRequest.pathVariable("lessonId");
+        return usersServiceProxy.addLesson(userId, lessonId).flatMap(user -> toServerResponse(Mono.just(user), HttpStatus.OK));
+    }
+
+
+    public Mono<ServerResponse> updateUser(ServerRequest serverRequest) {
+        String userId = serverRequest.pathVariable("userId");
+        Mono<CreateUserDto>  createUserDto = serverRequest.bodyToMono(CreateUserDto.class);
+        return usersServiceProxy.updateUser(userId, createUserDto).flatMap(user -> toServerResponse(Mono.just(user), HttpStatus.OK));
     }
 
 

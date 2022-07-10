@@ -115,6 +115,7 @@ public class LessonService {
     private Mono<CreateLessonResponseDto> update(Lesson lesson, CreateLessonDto createLessonDto) {
         GetLessonDto lessonDto = lesson.toGetLessonDto();
         createLessonDto.setId(lessonDto.getId());
+        createLessonDto.setResourcesIds(lessonDto.getResourcesIds());
         return lessonRepository.save(createLessonDto.toLesson()).map(Lesson::toCreateLessonResponseDto);
     }
 

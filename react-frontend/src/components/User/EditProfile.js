@@ -1,25 +1,19 @@
 import React, {useState} from 'react';
-import {useDispatch} from "../../react-redux-hooks";
-import {useHistory} from "react-router-dom";
-import {addUser} from "../../redux/thunks/user-thunks";
+import {useDispatch} from "react-redux";
+import {useSelector} from "../../react-redux-hooks";
 
-const Register = () => {
-    const initialState = {
-        id: null,
-        name: '',
-        surname: '',
-        login: '',
-        email: '',
-        password: '',
-        passwordConfirmation: '',
-        role: 'ROLE_STUDENT'
-    }
+
+// TODO COMPONENT FOR EDIT YOUR PROFILE
+const EditProfile = () => {
+
+    const userDetails = useSelector((state) => state.user.userData)
 
     const dispatch = useDispatch();
-    const history = useHistory();
+    const onFormSubmit = () => {
+        console.log('submit')
+    }
 
-    const [user, setUser] = useState(initialState);
-    const [submitted, setSubmitted] = useState(false);
+    const [user, setUser] = useState(userDetails);
 
 
     const handleInputChange = event => {
@@ -27,17 +21,9 @@ const Register = () => {
         setUser({...user, [name]: value});
     }
 
-
-    const submitUser = () => {
-        const {name, surname, email, login, password, passwordConfirmation, role} = user
-        dispatch(addUser(name, surname, email, login, password, passwordConfirmation, role));
-        history.push("/");
-    }
-
-
     return (
-        <div className="container mt-5">
-            <form onSubmit={submitUser}>
+        <>
+            <form className="edit_personal_data" onSubmit={onFormSubmit}>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Name: </label>
                     <div className="col-sm-4">
@@ -56,11 +42,11 @@ const Register = () => {
                     <div className="col-sm-4">
                         <input
                             type="text"
-                            id="surname"
+                            id="email"
                             required
-                            value={user.surname}
+                            value={user.email}
                             onChange={handleInputChange}
-                            name="surname"
+                            name="email"
                         />
                     </div>
                 </div>
@@ -68,13 +54,8 @@ const Register = () => {
                     <label className="col-sm-2 col-form-label">Email: </label>
                     <div className="col-sm-4">
                         <input
-                            type="text"
-                            id="email"
-                            required
-                            value={user.email}
-                            onChange={handleInputChange}
-                            name="email"
-                        />
+                            type="password"
+                            name="password"/>
                     </div>
                 </div>
                 <div className="form-group row">
@@ -127,16 +108,10 @@ const Register = () => {
                         </select>
                     </div>
                 </div>
-                <div className="form-group row">
-                    <button type="submit" className="btn btn-dark mx-3">
-                        Sign up
-                    </button>
-                </div>
             </form>
-        </div>
+        </>
     )
-
 }
 
 
-export default Register;
+export default EditProfile;

@@ -99,12 +99,6 @@ export const NavBar = () => {
                             <span className="nav-link pl-5 pr-5">Add Lesson</span>
                         </Link>
                     </li>
-                    {/*TODO ADD RESOURCE ????*/}
-                    <li className="nav-item">
-                        <Link to={"/addResource"}>
-                            <span className="nav-link pl-5 pr-5">Add Resource</span>
-                        </Link>
-                    </li>
                 </ul>
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
@@ -137,12 +131,6 @@ export const NavBar = () => {
                     <li className="nav-item">
                         <Link to={"/addLesson"}>
                             <span className="nav-link pl-5 pr-5">Add Lesson</span>
-                        </Link>
-                    </li>
-                    {/*TODO ADD RESOURCE ????*/}
-                    <li className="nav-item">
-                        <Link to={"/addResource"}>
-                            <span className="nav-link pl-5 pr-5">Add Resource</span>
                         </Link>
                     </li>
                 </ul>

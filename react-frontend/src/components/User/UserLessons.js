@@ -1,7 +1,5 @@
 import React from "react";
 import {useDispatch, useSelector} from "../../react-redux-hooks";
-import {fetchUserLessons} from "../../redux/actions/user-actions";
-import Lesson from "../Lessons/Lesson";
 import {Link} from "react-router-dom";
 
 const UserLessons = () => {

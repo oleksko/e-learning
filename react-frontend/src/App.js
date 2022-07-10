@@ -1,22 +1,20 @@
-import {NavBar, PrivateRoute, Role} from "./components/nav/NavBar";
-import {AdminPage} from "./components/AdminPage";
+import {NavBar, PrivateRoute} from "./components/nav/NavBar";
 import {Route, Router, Switch, useHistory} from "react-router-dom";
 import Lessons from "./components/Lessons/Lessons";
-import ResourceComponent from "./components/Resources/ResourceComponent";
-import UserComponent from "./components/UserComponent";
-import UserDetailsComponent from "./components/UserDetailsComponent";
+import UserDetailsComponent from "./components/User/UserDetailsComponent";
 import AddLesson from "./components/Lessons/AddLesson";
-import ResourcesForm from "./components/Resources/ResourcesForm";
 import Register from "./components/User/Register";
 import LessonDetails from "./components/Lessons/LessonDetails";
-import LessonDetailsTitle from "./components/Lessons/LessonDetailsTitle";
 import React from "react";
 import Login from "./components/User/Login";
 import userList from "./components/User/UserList";
 import UserLessons from "./components/User/UserLessons";
-import Footer from "./components/Footer";
-import Home from "./components/Home";
-import Contact from "./components/Contact"
+import Footer from "./components/nav/Footer";
+import Home from "./components/nav/Home";
+import Contact from "./components/nav/Contact"
+import EditUser from "./components/User/EditUser";
+import EditLesson from "./components/Lessons/EditLesson";
+import AddResource from "./components/Resources/AddResource";
 
 
 const App = () => {
@@ -29,19 +27,17 @@ const App = () => {
                 <NavBar/>
                 <Switch>
                     <PrivateRoute exact path="/" component={Home}/>
-                    <PrivateRoute path="/admin" roles={[Role.Admin]} component={AdminPage}/>
                     <Route path="/login" component={Login}/>
+                    <Route path="/profile" component={UserDetailsComponent}/>
+                    <Route path="/editUser/:id" component={EditUser}/>
                     <Route path="/lessons" component={Lessons}/>
-                    <Route path="/resource" component={ResourceComponent}/>
-                    <Route path="/userDetails" component={UserComponent}/>
-                    <Route path="/user" component={UserDetailsComponent}/>
                     <Route path="/addLesson" component={AddLesson}/>
-                    <Route path="/test" component={userList}/>
-                    <Route path="/addResource" component={ResourcesForm}/>
+                    <Route path="/users" component={userList}/>
                     <Route path="/registerUser" component={Register}/>
                     <Route path="/lessonDetails/:id" component={LessonDetails}/>
                     <Route path="/userLessons" component={UserLessons}/>
-                    <Route path="/lessonDetailsTitle/:title" component={LessonDetailsTitle}/>
+                    <Route path="/editLesson/:id" component={EditLesson}/>
+                    <Route path="/addResource/:title" component={AddResource}/>
                     <Route path="/contact" component={Contact}/>
                 </Switch>
             </Router>

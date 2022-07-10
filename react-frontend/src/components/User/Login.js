@@ -8,7 +8,7 @@ import {fetchLoginUser} from "../../redux/thunks/user-thunks";
 const Login = ({register}) => {
 
     const initialState = {
-        login: "student",
+        login: "admin",
         password: "123",
     };
 
