@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from "../../react-redux-hooks";
-import ResourceAddToLesson from "../../remove/ResourceAddToLesson";
-import {addResourceToLesson, fetchLessonInfo} from "../../redux/thunks/lesson-thunks";
-import {useHistory, useLocation} from "react-router-dom";
+import {addResourceToLesson} from "../../redux/thunks/lesson-thunks";
+import {useHistory} from "react-router-dom";
 
 const AddResource = ({match}) => {
 

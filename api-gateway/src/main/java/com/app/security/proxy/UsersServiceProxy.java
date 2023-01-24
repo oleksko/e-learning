@@ -33,6 +33,15 @@ public class UsersServiceProxy {
                 .bodyToMono(GetUserDto.class);
     }
 
+
+    public Mono<GetUserDto[]> getUsers() {
+        return webClient
+                .get()
+                .uri("/")
+                .retrieve()
+                .bodyToMono(GetUserDto[].class);
+    }
+
     public Mono<GetUserDto> addLesson(String userId, String lessonId) {
         return webClient
                 .put()
@@ -41,12 +50,26 @@ public class UsersServiceProxy {
                 .bodyToMono(GetUserDto.class);
     }
 
+    public Mono<CreateUserResponseDto> createUser(Mono<CreateUserDto> createUserDto) {
+        return createUserDto.flatMap(user -> create(user));
+    }
+
+
     public Mono<CreateUserResponseDto> updateUser(String userId, Mono<CreateUserDto> createUserDto) {
         return createUserDto.flatMap(user -> update(userId, user));
     }
 
+    private Mono<CreateUserResponseDto> create(CreateUserDto createUserDto) {
+        return webClient
+                .post()
+                .uri("/register")
+                .body(fromValue(createUserDto))
+                .retrieve()
+                .bodyToMono(CreateUserResponseDto.class);
+    }
 
-    private Mono<CreateUserResponseDto> update(String userId, CreateUserDto createUserDto){
+
+    private Mono<CreateUserResponseDto> update(String userId, CreateUserDto createUserDto) {
         return webClient
                 .put()
                 .uri("/update/userId/{userId}", userId)

@@ -7,7 +7,6 @@ import {useHistory} from "react-router-dom";
 
 const EditUser = ({match}) => {
 
-    // const userDetails = useSelector((state) => state.user.userData)
     const {id} =  match.params
     const history = useHistory();
 
@@ -19,15 +18,12 @@ const EditUser = ({match}) => {
 
     const onFormSubmit = (event) => {
         event.preventDefault();
-        console.log('------here------');
-        const userEdited = {name, surname, email, role};
-        console.log(userEdited);
-        dispatch(updateUser(id, name, surname, email, role));
+        dispatch(updateUser(id, name, surname, email, login, role));
         history.push("/users");
     }
 
     const [user, setUser] = useState(userDetails);
-    const {name, surname, email, role} = user;
+    const {name, surname, email, login, role} = user;
 
 
     const handleInputChange = event => {

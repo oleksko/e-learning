@@ -34,7 +34,6 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .authenticationEntryPoint(serverAuthenticationEntryPoint())
                 .accessDeniedHandler(serverAccessDeniedHandler())
-
                 .and()
                 .authorizeExchange()
                 .pathMatchers("/users/register/**", "/login").permitAll()
@@ -42,10 +41,7 @@ public class SecurityConfig {
                 .pathMatchers("/users/**").permitAll()
                 .pathMatchers("/lessons/**").permitAll()
                 .pathMatchers("/lessons").permitAll()
-
-                
                 .pathMatchers("/resources/**").permitAll()
-//                .pathMatchers("/users/findById/**").hasAnyRole("ADMIN")
                 .and().build();
     }
 

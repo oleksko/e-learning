@@ -1,7 +1,7 @@
-package com.app.application.service.s3;
+package com.app.application.service;
 
 import com.app.application.proxy.LessonServiceProxy;
-import com.app.application.proxy.dto.CreateLessonResponseDto;
+import com.app.application.service.s3.S3Util;
 import com.app.domain.resource.Resource;
 import com.app.domain.resource.dto.CreateResourceResponseDto;
 import com.app.domain.resource.dto.GetResourceDto;

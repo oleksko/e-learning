@@ -8,7 +8,6 @@ const rootReducer = (history) =>
         router: connectRouter(history),
         user: userReducers,
         lesson: LessonReducers,
-        // resource: ResourceReducer
     });
 
 

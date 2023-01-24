@@ -1,7 +1,7 @@
 package com.app.application.service.s3;
 
-import com.amazonaws.regions.Regions;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,6 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
@@ -22,13 +21,11 @@ import java.util.UUID;
 @Service
 @Getter
 @Slf4j
+@RequiredArgsConstructor
 public class S3Util {
 
     private S3Client s3Client;
-
-    @Autowired
-    private S3Properties s3Properties;
-
+    private final S3Properties s3Properties;
 
 
     @PostConstruct
@@ -44,7 +41,6 @@ public class S3Util {
     }
 
 
-
     public String putObject(String fileName, byte[] fileData) {
         String path = "files/" + UUID.randomUUID().toString().replaceAll("\\W", "") + fileName;
         PutObjectRequest putObjectRequest = PutObjectRequest
@@ -54,31 +50,6 @@ public class S3Util {
                 .build();
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(fileData));
         return path;
-    }
-
-
-
-    public InputStream getObjectAsInputStream(String name) {
-        GetObjectRequest getObjectRequest = GetObjectRequest
-                .builder()
-                .bucket(s3Properties.getBucket())
-                .key(name)
-                .build();
-        ResponseInputStream inputStream = s3Client.getObject(getObjectRequest);
-        return inputStream;
-    }
-
-
-
-    public byte[] getObjectAsByteArray(String name) {
-        GetObjectRequest getObjectRequest = GetObjectRequest
-                .builder()
-                .bucket(s3Properties.getBucket())
-                .key(name)
-                .build();
-        return s3Client
-                .getObjectAsBytes(getObjectRequest)
-                .asByteArray();
     }
 
 }

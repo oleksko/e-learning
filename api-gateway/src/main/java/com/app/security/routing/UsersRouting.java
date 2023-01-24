@@ -20,7 +20,9 @@ public class UsersRouting {
     ) {
         return nest(
                 path("/users"),
-                route(GET("/login/{login}").and(accept(MediaType.APPLICATION_JSON)), proxyUsersRoutingHandlers::findByLogin)
+                route(GET("").and(accept(MediaType.APPLICATION_JSON)), proxyUsersRoutingHandlers::users)
+                        .andRoute(GET("/login/{login}").and(accept(MediaType.APPLICATION_JSON)), proxyUsersRoutingHandlers::findByLogin)
+                        .andRoute(POST("/register").and(accept(MediaType.APPLICATION_JSON)), proxyUsersRoutingHandlers::create)
                         .andRoute(PUT("/update/userId/{userId}/lessonId/{lessonId}").and(accept(MediaType.APPLICATION_JSON)), proxyUsersRoutingHandlers::addLesson)
                         .andRoute(PUT("/update/userId/{userId}").and(accept(MediaType.APPLICATION_JSON)), proxyUsersRoutingHandlers::updateUser));
     }

@@ -4,14 +4,6 @@ import {Link} from "react-router-dom";
 
 const UserLessons = () => {
     const lessons = useSelector((state) => state.lesson.userLessons)
-    const dispatch = useDispatch();
-
-    // React.useEffect(() => {
-    //     if (lessonsIds) {
-    //         let str = lessonsIds.join(',')
-    //         dispatch(fetchUserLessons(str));
-    //     }
-    // }, [user.name, dispatch]);
 
     return (
         <div className="container">

@@ -1,23 +1,13 @@
 import React from 'react';
-import {useDispatch, useSelector} from "../../react-redux-hooks";
+import {useSelector} from "../../react-redux-hooks";
 import {Link} from "react-router-dom";
-import {fetchUserInfos} from "../../redux/thunks/user-thunks";
 
 const style = {
     marginLeft: 10
 }
 
-const UserDetailsComponent = () => {
+const UserDetails = () => {
     const userDetails = useSelector((state) => state.user.userData)
-    const {user} = useSelector((state) => state.user)
-    const dispatch = useDispatch();
-
-    React.useEffect(() => {
-        if (user.name) {
-            dispatch(fetchUserInfos());
-        }
-    }, [user.name, dispatch]);
-
 
     return (
         <div className="container mt-5">
@@ -44,12 +34,7 @@ const UserDetailsComponent = () => {
                         {userDetails.email}
                         </span>
                     </p>
-                    <p> Your Lessons: </p>
-                    {userDetails.lessonsIds && userDetails.lessonsIds.length > 0 ? userDetails.lessonsIds.map(lesson =>
-                        <p>
-                            <Link to={`/lessonDetails/${lesson}`}> Lesson :{lesson} </Link>
-                        </p>
-                    ) : null}
+                    <Link to={'/editProfile'}  className="btn btn-success mx-3">Edit Profile</Link>
                 </>
                 : <p>Nothing</p>}
         </div>
@@ -57,4 +42,4 @@ const UserDetailsComponent = () => {
 }
 
 
-export default UserDetailsComponent;
+export default UserDetails;

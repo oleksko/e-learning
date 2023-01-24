@@ -8,16 +8,11 @@ const ResourceList = (props) => {
     let [resource, setResource] = useState([]);
     let [change, setChange] = useState(true);
 
-    const fetchResources = async () => {
-        const response = await axios.get(`http://localhost:8200/resources/ids/1res`);
-        const data = await response.data;
-        setResource(data)
-    }
-
+    //TODO EXTRACT DO
     React.useEffect(() => {
         let resourcesId = props.resourcesIds.join(",")
         if (change) {
-            axios.get(`http://localhost:8200/resources/ids/${resourcesId}`).then(r => setResource(r.data))
+            axios.get(`http://localhost:8080/resources/ids/${resourcesId}`).then(r => setResource(r.data))
             setChange(false)
         }
     }, [change]);
@@ -32,3 +27,7 @@ const ResourceList = (props) => {
 }
 
 export default ResourceList;
+
+
+
+

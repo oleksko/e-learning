@@ -17,12 +17,12 @@ export const NavBar = () => {
 
 
     let nav;
-    //TODO REFACTOR NAVBAR
+
     if (Object.keys(user).length === 0) {
         nav = (
             <ul className="navbar-nav mr-auto">
                 <li className="nav-item">
-                    <a href="/login">
+                    <a href="/loginuser">
                         <span className="nav-link pl-5 pr-5">Login</span>
                     </a>
                 </li>
@@ -82,13 +82,11 @@ export const NavBar = () => {
                             <span className="nav-link pl-5 pr-5">{user.name}</span>
                         </Link>
                     </li>
-                    {/*TODO LESSONS TO EDIT*/}
                     <li className="nav-item">
                         <Link to={"/lessons"}>
                             <span className="nav-link pl-5 pr-5">Lessons</span>
                         </Link>
                     </li>
-                    {/*TODO USERS TO EDIT*/}
                     <li className="nav-item">
                         <Link to={"/users"}>
                             <span className="nav-link pl-5 pr-5">Users</span>
@@ -175,7 +173,7 @@ export const PrivateRoute = ({component: Component, roles, ...rest}) => (
 
         if (!currentUser) {
             // not logged in so redirect to login page with the return url
-            return <Redirect to={{pathname: '/login'}}/>
+            return <Redirect to={{pathname: '/loginuser'}}/>
         }
 
         // check if route is restricted by role

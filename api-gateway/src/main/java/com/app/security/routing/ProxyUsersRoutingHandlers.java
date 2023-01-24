@@ -47,4 +47,15 @@ public class ProxyUsersRoutingHandlers {
     }
 
 
+    public Mono<ServerResponse> users(ServerRequest serverRequest) {
+        return usersServiceProxy.getUsers().flatMap(user -> toServerResponse(Mono.just(user), HttpStatus.OK));
+    }
+
+    public Mono<ServerResponse> create(ServerRequest serverRequest) {
+        Mono<CreateUserDto>  createUserDto = serverRequest.bodyToMono(CreateUserDto.class);
+        return usersServiceProxy.createUser(createUserDto).flatMap(user -> toServerResponse(Mono.just(user), HttpStatus.OK));
+    }
+
+
+
 }

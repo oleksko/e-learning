@@ -66,14 +66,17 @@ public class UserService {
     }
 
 
-    //    TODO UPDATE LESSON AND ADD EXCEPTIONS
     public Mono<GetUserDto> updateLesson(String userId, String lessonId) {
         return userRepository.findById(userId)
                 .flatMap(userDB -> {
                     var user = userDB.toUpdateUserDto();
                     var lessonsIds = user.getLessonsIds();
-                    lessonsIds.add(lessonId);
-                    user.setLessonsIds(lessonsIds);
+                    if (lessonsIds == null) {
+                        user.setLessonsIds(Arrays.asList(lessonId));
+                    } else {
+                        lessonsIds.add(lessonId);
+                        user.setLessonsIds(lessonsIds);
+                    }
                     var userToDb = user.toUser();
                     return userRepository.save(userToDb).map(User::toGetUserDto);
                 });
@@ -81,7 +84,6 @@ public class UserService {
 
 
     public Mono<CreateUserResponseDto> updateUser(String userId, Mono<CreateUserDto> updateUser) {
-        System.out.println("HERE 2");
 
         if (updateUser == null) {
             return Mono.error(() -> new UsersServiceException("Cannot update user. Object is null"));
@@ -106,6 +108,7 @@ public class UserService {
         return userRepository.findById(userId)
                 .flatMap(userDB -> {
                     var user = userDB.toUpdateUserDto();
+                    user.setLogin(userDto.getLogin());
                     user.setName(userDto.getName());
                     user.setSurname(userDto.getSurname());
                     user.setEmail(userDto.getEmail());

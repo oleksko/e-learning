@@ -1,6 +1,6 @@
 package com.app.infrastructure.routing;
 
-import com.app.application.service.s3.ResourceService;
+import com.app.application.service.ResourceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,23 +23,8 @@ public class ResourceRoutingHandlers {
     private final ResourceService resourceService;
 
 
-
-    public Mono<ServerResponse> uploadSingleImageToS3(ServerRequest request) {
-        return request.multipartData()
-                .flatMap(parts -> {
-                    Map<String, Part> part = parts.toSingleValueMap();
-                    return Mono.just((FilePart) part.get("file"));
-                })
-                .flatMap(file -> {
-                    return RoutingHandlersUtil.toServerResponse(resourceService.addResources(file), HttpStatus.ACCEPTED);
-                });
-    }
-
-
-    public Mono<ServerResponse> uploadSingleImageToS3Test(ServerRequest request) {
-        System.out.println("uploadSingleImageToS3Test");
+    public Mono<ServerResponse> uploadFileToLesson(ServerRequest request) {
         String lessonId = request.pathVariable("lessonId");
-        System.out.println(lessonId);
         return request.multipartData()
                 .flatMap(parts -> {
                     Map<String, Part> part = parts.toSingleValueMap();
@@ -50,13 +35,18 @@ public class ResourceRoutingHandlers {
                 });
     }
 
+    public Mono<ServerResponse> getByName(ServerRequest request) {
+        String name = request.pathVariable("name");
+        var resource = resourceService.findByName(name);
+        return RoutingHandlersUtil.toServerResponse(resource, HttpStatus.OK);
+    }
 
 
-    public Mono<ServerResponse> getAllResources(ServerRequest serverRequest){
+    public Mono<ServerResponse> getAllResources(ServerRequest serverRequest) {
         return RoutingHandlersUtil.toServerResponse(resourceService.findAll().collectList(), HttpStatus.OK);
     }
 
-    public Mono<ServerResponse> getResourceById(ServerRequest serverRequest){
+    public Mono<ServerResponse> getResourceById(ServerRequest serverRequest) {
         String id = serverRequest.pathVariable("id");
         return RoutingHandlersUtil.toServerResponse(resourceService.findById(id), HttpStatus.OK);
     }

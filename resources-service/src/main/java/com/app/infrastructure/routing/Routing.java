@@ -1,6 +1,5 @@
 package com.app.infrastructure.routing;
 
-import com.app.application.service.s3.S3RouterHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -16,17 +15,15 @@ public class Routing {
 
     @Bean
     public RouterFunction<ServerResponse> routerFunction(
-            ResourceRoutingHandlers resourceRoutingHandlers,
-            S3RouterHandler s3RouterHandler
+            ResourceRoutingHandlers resourceRoutingHandlers
     ) {
         return nest(
                 path("/resources"),
                 route(GET("").and(accept(MediaType.APPLICATION_JSON)), resourceRoutingHandlers::getAllResources)
-                        .andRoute(GET("/name/{name}").and(accept(MediaType.APPLICATION_JSON)), s3RouterHandler::viewFromS3)
+                        .andRoute(GET("/name/{name}").and(accept(MediaType.APPLICATION_JSON)), resourceRoutingHandlers::getByName)
                         .andRoute(GET("/id/{id}").and(accept(MediaType.APPLICATION_JSON)), resourceRoutingHandlers::getResourceById)
                         .andRoute(GET("/ids/{ids}").and(accept(MediaType.APPLICATION_JSON)), resourceRoutingHandlers::getResourceByIds)
-                        .andRoute(POST("/add").and(accept(MediaType.MULTIPART_FORM_DATA)), resourceRoutingHandlers::uploadSingleImageToS3)
-                        .andRoute(POST("/add/{lessonId}").and(accept(MediaType.MULTIPART_FORM_DATA)), resourceRoutingHandlers::uploadSingleImageToS3Test)
+                        .andRoute(POST("/add/{lessonId}").and(accept(MediaType.MULTIPART_FORM_DATA)), resourceRoutingHandlers::uploadFileToLesson)
         );
     }
 }

@@ -1,7 +1,7 @@
 import {NavBar, PrivateRoute} from "./components/nav/NavBar";
 import {Route, Router, Switch, useHistory} from "react-router-dom";
 import Lessons from "./components/Lessons/Lessons";
-import UserDetailsComponent from "./components/User/UserDetailsComponent";
+import UserDetails from "./components/User/UserDetails";
 import AddLesson from "./components/Lessons/AddLesson";
 import Register from "./components/User/Register";
 import LessonDetails from "./components/Lessons/LessonDetails";
@@ -15,6 +15,7 @@ import Contact from "./components/nav/Contact"
 import EditUser from "./components/User/EditUser";
 import EditLesson from "./components/Lessons/EditLesson";
 import AddResource from "./components/Resources/AddResource";
+import EditProfile from "./components/User/EditProfile";
 
 
 const App = () => {
@@ -26,10 +27,11 @@ const App = () => {
             <Router history={history}>
                 <NavBar/>
                 <Switch>
-                    <PrivateRoute exact path="/" component={Home}/>
-                    <Route path="/login" component={Login}/>
-                    <Route path="/profile" component={UserDetailsComponent}/>
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/loginuser" component={Login}/>
+                    <Route path="/profile" component={UserDetails}/>
                     <Route path="/editUser/:id" component={EditUser}/>
+                    <Route path="/editProfile" component={EditProfile}/>
                     <Route path="/lessons" component={Lessons}/>
                     <Route path="/addLesson" component={AddLesson}/>
                     <Route path="/users" component={userList}/>

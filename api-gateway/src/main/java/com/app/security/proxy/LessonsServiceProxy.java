@@ -45,16 +45,12 @@ public class LessonsServiceProxy {
         );
     }
 
-    //    TODO ADD ERRO HANDLING/MAPPING
     public Mono<CreateLessonResponseDto> create(CreateLessonDto createLessonDto) {
-        System.out.println("==================");
-        System.out.println(createLessonDto.toString());
-        System.out.println("==================");
+
         return webClient
                 .post()
                 .uri("/register")
                 .body(fromValue(createLessonDto))
-//                .body(createLessonDto)
                 .exchangeToMono(response -> {
                     if (response.statusCode().equals(HttpStatus.CREATED)) {
                         System.out.println("OK");
@@ -65,45 +61,7 @@ public class LessonsServiceProxy {
                         return response.createException().flatMap(Mono::error);
                     }
                 });
-//                .onErrorResume(e -> Mono.just("Error " + e.getMessage())
-//                        .flatMap(s -> ServerResponse.ok()
-//                                .contentType(MediaType.TEXT_PLAIN)
-////                                .bodyValue(s)))
-//                .onStatus(HttpStatus::isError, response ->  {
-////                    return toServerResponse(Mono.just(response), HttpStatus.OK);
-////                        ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(response)
-//                    return Mono.error(new AppSecurityException("error message"));
-//                })
-//                .bodyToMono(CreateLessonResponseDto.class);
     }
-
-
-//    public Mono<CreateLessonResponseDto> createLesson(Mono<CreateLessonDto> createLessonDtoMono) {
-//        System.out.println("TEST 3");
-//        System.out.println(Mono.just(createLessonDtoMono));
-//        return createLessonDtoMono.map(lesson -> {
-//            if (lesson.getTitle().isEmpty()) {
-//                return Mono.just(CreateLessonResponseDto.builder().build());
-//            } else {
-//                return webClient
-//                        .post()
-//                        .uri("/register")
-////                .body(fromValue(createLessonDtoMono))
-//                        .bodyValue(lesson)
-//                        .retrieve()
-//                        .bodyToMono(CreateLessonResponseDto.class);
-//            }
-//        });
-////        return webClient
-////                .post()
-////                .uri("/register")
-//////                .body(fromValue(createLessonDtoMono))
-////                .body(Mono.just(createLessonDtoMono), CreateLessonDto.class)
-////                .retrieve()
-////                .bodyToMono(CreateLessonResponseDto.class);
-////    }
-//    }
-//
 
 
     public Mono<GetLessonDto[]> findByIds(String ids) {
@@ -132,7 +90,6 @@ public class LessonsServiceProxy {
                 .put()
                 .uri("/id/{id}", id)
                 .body(fromValue(lesson))
-//                .body(createLessonDto)
                 .exchangeToMono(response -> {
                     if (response.statusCode().equals(HttpStatus.CREATED)) {
                         System.out.println("OK");

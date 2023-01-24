@@ -63,7 +63,6 @@ const EditLesson = ({match}) => {
                         />
                     </div>
                 </div>
-                {/*TODO DODANIE FRAGMENTU CO DODA RESOURCE!!*/}
                 <div className="form-group row">
                     <button type="submit" className="btn btn-dark mx-3">
                         Submit

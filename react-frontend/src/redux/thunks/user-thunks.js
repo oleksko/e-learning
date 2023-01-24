@@ -17,28 +17,23 @@ export const fetchLoginUser = (user) => async (dispatch) => {
         const response = await axios.post("http://localhost:8080/login", user);
         const data = await response.data;
         const decodedToken = jwt(data.accessToken);
-        console.log('decoded token')
-        console.log(decodedToken)
-        console.log('decoded token')
-        return [
-            dispatch(loginUser(decodedToken)),
-            dispatch(userLoadingEnd()),
-            dispatch(setToken(data.accessToken)),
-            dispatch(fetchUserLessons(decodedToken.lessonsIds)),
-            localStorage.setItem("token", JSON.stringify(data.accessToken)),
-            localStorage.setItem("user", JSON.stringify(data)),
-        ]
+
+        dispatch(loginUser(decodedToken));
+        dispatch(userLoadingEnd());
+        dispatch(setToken(data.accessToken));
+        dispatch(fetchUserLessons(decodedToken.lessonsIds));
+        localStorage.setItem("token", JSON.stringify(data.accessToken));
+        localStorage.setItem("user", JSON.stringify(data));
+        dispatch(userLoadingEnd());
+
     } catch (error) {
-        return [
-            dispatch(userLoadingEnd()),
-            console.log(error)
-        ]
+        console.log(error);
     }
 }
 
 export const addUser = (name, surname, email, login, password, passwordConfirmation, role) => async (dispatch) => {
     try {
-        const response = await axios.post('http://localhost:8100/users/register', {
+        const response = await axios.post('http://localhost:8080/users/register', {
             name,
             surname,
             email,
@@ -53,27 +48,26 @@ export const addUser = (name, surname, email, login, password, passwordConfirmat
     }
 }
 
-
-export const updateUser = (id, name, surname, email, role) => async (dispatch) => {
+export const updateUser = (id, name, surname, email, login, role) => async (dispatch) => {
     try {
         const response = await axios.put(`http://localhost:8080/users/update/userId/${id}`, {
             name,
+            login,
             surname,
             email,
             role
         })
         dispatch(fetchAllUsers());
+        dispatch(fetchUser(login));
     } catch (error) {
         console.log(error)
     }
 }
 
 
-export const fetchUserInfos = () => async (dispatch) => {
-    const user = JSON.parse(localStorage.getItem("user"))
-
+export const fetchUser = (login) => async (dispatch) => {
     try {
-        const response = await axios.get(`http://localhost:8080/users/login/${user.login}`);
+        const response = await axios.get(`http://localhost:8080/users/login/${login}`);
         const data = await response.data;
         dispatch(setUserInfos(data))
     } catch (error) {
@@ -81,9 +75,8 @@ export const fetchUserInfos = () => async (dispatch) => {
     }
 }
 
-export const fetchUserLessons = (lessonsIds) => async (dispatch) => {
-    const user = JSON.parse(localStorage.getItem("user"))
 
+export const fetchUserLessons = (lessonsIds) => async (dispatch) => {
     try {
         const response = await axios.get(`http://localhost:8080/lessons/ids/${lessonsIds}`);
         const data = await response.data;
@@ -94,19 +87,8 @@ export const fetchUserLessons = (lessonsIds) => async (dispatch) => {
 }
 
 
-export const fetchUserLesson = (lessonsId) => async (dispatch) => {
-    const user = JSON.parse(localStorage.getItem("user"))
-    try {
-        const response = await axios.get(`http://localhost:8080/lessons/id/${lessonsId}`);
-        const data = await response.data;
-        dispatch(setUserLessons(data))
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 export const fetchAllUsers = () => async (dispatch) => {
-    const response = await axios.get("http://localhost:8100/users");
+    const response = await axios.get("http://localhost:8080/users");
     dispatch(getAllUsers(response.data));
 };
 
@@ -119,17 +101,24 @@ export const logout = () => async (dispatch) => {
 };
 
 
-export const addLessonToUser = (user, lesson) => async (dispatch) =>{
-    console.log(user)
-    console.log(`http://localhost:8100/users/update/userId/${user.id}/lessonId/${lesson}`)
+export const addLessonToUser = (user, lesson) => async (dispatch) => {
     try {
-        const response = await axios.put('http://localhost:8080/users/update/userId/1asd/lessonId/3less');
+        const response = await axios.put(`http://localhost:8080/users/update/userId/${user.id}/lessonId/${lesson}`);
         const data = await response.data;
-        console.log('-------------')
-        console.log(data)
-        console.log('-------------')
+        dispatch(fetchUserInfo(user));
     } catch (error) {
         console.log(error)
     }
 
+}
+
+
+export const fetchUserInfo = (user) => async (dispatch) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/users/login/${user.login}`);
+        const data = await response.data;
+        dispatch(setUserInfos(data))
+    } catch (error) {
+        console.log(error);
+    }
 }

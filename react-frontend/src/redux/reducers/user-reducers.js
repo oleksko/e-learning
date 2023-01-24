@@ -17,6 +17,11 @@ const userReducers = (state = initialState, action) => {
                 ...state,
                 userData: action.payload,
             };
+        case UserActions.FETCH_USER_INFO:
+            return {
+                ...state,
+                userData: action.payload,
+            };
         case UserActions.SET_TOKEN:
             return {
                 ...state,

@@ -18,30 +18,51 @@ const Lessons = () => {
     }, []);
 
 
-    //TODO ADD LESSON TO USER DISPATCH INFOS
     const handleRemoveLesson = (lessonId) => {
         console.log('remove lesson with id: ' + lessonId)
     }
 
+    //TODO PRZELADOWANIE PO DODANIU LEKCJI DO UZYTOWNIKA
     const handleSubscribe = (lessonId) => {
         dispatch(addLessonToUser(user, lessonId));
     }
 
 
     const buttonPanel = (user, lesson) => {
+        console.log('buttonpanel')
+        console.log(user)
+        console.log('buttonpanel')
         if (user.role === 'ROLE_STUDENT')
-            return (
-                <>
-                    {user.lessonsIds.includes(lesson.id) ? <th><p className="btn btn-dark mx-3">Subscribed</p></th> :
+            if (user.lessonsIds !== undefined) {
+                return (
+                    <>
+                        {console.log('sa')}
+                        {user.lessonsIds.includes(lesson.id) ?
+                            <th><p className="btn btn-dark mx-3">Subscribed</p></th> :
+                            <th>
+                                <Button onClick={() => handleSubscribe(lesson.id)}
+                                        className="btn btn-success mx-3">
+                                    Subscribe
+                                </Button>
+                            </th>
+                        }
+                    </>
+                )
+            } else {
+                return (
+
+                    <>
+                        {console.log('undf')}
                         <th>
                             <Button onClick={() => handleSubscribe(lesson.id)}
                                     className="btn btn-success mx-3">
                                 Subscribe
                             </Button>
                         </th>
-                    }
-                </>
-            )
+                    </>
+                )
+
+            }
         else if (user.role === 'ROLE_ADMIN')
             return (
                 <>
