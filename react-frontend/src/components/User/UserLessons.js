@@ -11,7 +11,7 @@ const UserLessons = () => {
                 <table className="table mt-4 border text-center">
                     <thead className="table-active">
                     <tr>
-                        <th>id</th>
+                        {/*<th>id</th>*/}
                         <th>Title</th>
                         <th>Description</th>
                         <th></th>
@@ -21,11 +21,11 @@ const UserLessons = () => {
                     {lessons.map((lesson) => {
                         return (
                             <tr key={lesson.id}>
-                                <th>{lesson.id}</th>
+                                {/*<th>{lesson.id}</th>*/}
                                 <th>{lesson.title}</th>
                                 <th>{lesson.description}</th>
                                 <th>
-                                    <Link to={`/lessonDetails/${lesson.id}`}>Details</Link>
+                                    <Link to={`/lessonDetails/${lesson.id}`} className="btn btn-success mx-3">Details</Link>
                                 </th>
                             </tr>
                         );

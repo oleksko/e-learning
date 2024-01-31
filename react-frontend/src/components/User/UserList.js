@@ -18,7 +18,7 @@ const UserList = () => {
                 <table className="table mt-4 border text-center">
                     <thead className="table-active">
                     <tr>
-                        <th>id</th>
+                        {/*<th>id</th>*/}
                         <th>Name</th>
                         <th>Surname</th>
                         <th>E-mail</th>
@@ -31,7 +31,7 @@ const UserList = () => {
                     {users.map((user) => {
                         return (
                             <tr key={user.id}>
-                                <th>{user.id}</th>
+                                {/*<th>{user.id}</th>*/}
                                 <th>{user.name}</th>
                                 <th>{user.surname}</th>
                                 <th>{user.email}</th>

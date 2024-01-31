@@ -37,37 +37,37 @@ public class UsersServiceApplication implements ApplicationRunner {
         var user = User
                 .builder()
                 .id("0asd")
-                .name("name")
-                .surname("surname")
+                .name("Adam")
+                .surname("Kowalski")
                 .login("admin")
                 .role(Role.ROLE_ADMIN)
                 .password(passwordEncoder.encode("123"))
                 .lessonsIds(Arrays.asList("1less", "2less"))
-                .email("test@test.pl")
+                .email("adam.kowalski@test.pl")
                 .build();
 
         var user1 = User
                 .builder()
                 .id("1asd")
-                .name("name1")
-                .surname("surname1")
+                .name("Jacek")
+                .surname("Nowak")
                 .login("student")
                 .role(Role.ROLE_STUDENT)
                 .password(passwordEncoder.encode("123"))
                 .lessonsIds(Arrays.asList("1less", "2less"))
-                .email("test@test.pl")
+                .email("jacek.nowak@test.pl")
                 .build();
 
         var user2 = User
                 .builder()
                 .id("534asd")
-                .name("name1")
-                .surname("surname1")
+                .name("Andrzej")
+                .surname("Wielki")
                 .login("teacher")
                 .role(Role.ROLE_TEACHER)
                 .password(passwordEncoder.encode("123"))
                 .lessonsIds(Arrays.asList("1less", "2less", "3less"))
-                .email("test@test.pl")
+                .email("Andrzej.Wielki@test.pl")
                 .build();
 
 

@@ -117,11 +117,6 @@ export const NavBar = () => {
                         </Link>
                     </li>
                     <li className="nav-item">
-                        <Link to={"/"} onClick={handleLogout}>
-                            <span className="nav-link pl-5 pr-5">Logout</span>
-                        </Link>
-                    </li>
-                    <li className="nav-item">
                         <Link to={"/lessons"}>
                             <span className="nav-link pl-5 pr-5">Lessons</span>
                         </Link>

@@ -35,7 +35,7 @@ public class S3Util {
         s3Client = S3Client
                 .builder()
                 .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
-                .region(Region.EU_CENTRAL_1)
+                .region(Region.EU_NORTH_1)
                 .build();
 
     }
@@ -43,12 +43,15 @@ public class S3Util {
 
     public String putObject(String fileName, byte[] fileData) {
         String path = "files/" + UUID.randomUUID().toString().replaceAll("\\W", "") + fileName;
+        System.out.println("1");
         PutObjectRequest putObjectRequest = PutObjectRequest
                 .builder()
                 .bucket(s3Properties.getBucket())
                 .key(path)
                 .build();
+        System.out.println("11");
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(fileData));
+        System.out.println("path");
         return path;
     }
 

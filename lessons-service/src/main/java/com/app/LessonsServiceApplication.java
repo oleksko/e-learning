@@ -34,25 +34,25 @@ public class LessonsServiceApplication implements ApplicationRunner {
         var lesson1 = Lesson
                 .builder()
                 .id("1less")
-                .description("Description lesson 1")
+                .description("Celem przedmiotu jest przekazanie elementarnej wiedzy na temat podstawowych algorytmow i struktur danych z wykorzystaniem jezyka C++")
                 .resourcesIds(List.of("1res", "2res"))
-                .title("title1")
+                .title("Algorytmy i Struktury Danych")
                 .build();
 
         var lesson2 = Lesson
                 .builder()
                 .id("2less")
-                .description("Description lesson 2")
+                .description("Celem przedmiotu jest przekazanie elementarnej wiedzy na temat podstaw programowania obiektowego w jezyku JAVA")
                 .resourcesIds(List.of("1res"))
-                .title("title2")
+                .title("Programowanie Obiektowe")
                 .build();
 
         var lesson3 = Lesson
                 .builder()
                 .id("3less")
-                .description("Description lesson 3")
+                .description("Celem przedmiotu jest przekazanie elementarnej wiedzy na temat budowy, działania oraz użytkowania sieci komputerowych. Przedmiot omawia istotę działania sieci lokalnych LAN oraz techniki stosowane w sieciach rozległych WAN")
                 .resourcesIds(List.of("2res", "3res"))
-                .title("title3")
+                .title("Sieci Komputerowe")
                 .build();
 
 

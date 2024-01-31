@@ -2,6 +2,7 @@ import React from 'react';
 import {useSelector} from "../../react-redux-hooks";
 import ResourceList from "../Resources/ResourceList";
 import {Link} from "react-router-dom";
+import lessons from "./Lessons";
 
 
 const LessonDetails = ({match}) => {
@@ -10,10 +11,19 @@ const LessonDetails = ({match}) => {
 
     const user = useSelector((state) => state.user.userData)
 
-    const lesson = useSelector(state =>
-        state.lesson.userLessons.find(lesson => lesson.id === id)
-    )
+    const lesson = useSelector(state => {
+            console.log('state.lesson')
+            console.log(state.lesson.lessons)
+            console.log(id)
+            console.log(state.lesson.lessons.find(lesson => lesson.id === id));
+            return state.lesson.lessons.find(lesson => lesson.id === id)
 
+        }
+
+    )
+    console.log('lesson-----')
+    console.log(lesson)
+    console.log('lesson-----')
     let links;
     if (Object.keys(user).length === 0) {
         links = null
@@ -37,9 +47,9 @@ const LessonDetails = ({match}) => {
     return (
         <div className="container mt-5">
             <div className="row">
-                <div className="col-md-7">
+                <div className="col-md-12">
                     <h2>Title: {lesson.title}</h2>
-                    <h3>Description: {lesson.description}</h3>
+                    <h4>Description: {lesson.description}</h4>
                 </div>
             </div>
             <ResourceList resourcesIds={lesson.resourcesIds}/>

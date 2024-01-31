@@ -67,7 +67,11 @@ const Lessons = () => {
             return (
                 <>
                     <th>
-                        <Link to={`/LessonDetails/${lesson.id}`} className="btn btn-success mx-3"> Details </Link>
+                        {console.log(lesson)}
+                        <Link to={`/LessonDetails/${lesson.id}`}> <Button
+                            className="btn btn-success mx-3">Details</Button></Link>
+                    </th>
+                    <th>
                         <Button onClick={() => handleRemoveLesson(lesson.id)}
                                 className="btn btn-success mx-3">
                             Remove
@@ -87,13 +91,15 @@ const Lessons = () => {
 
     return (
         <div className="container">
+            {console.log(lessons)}
             <>
                 <table className="table mt-4 border text-center">
                     <thead className="table-active">
                     <tr>
-                        <th>id</th>
+                        {/*<th>id</th>*/}
                         <th>Title</th>
                         <th>Description</th>
+                        <th></th>
                         {Object.keys(user).length !== 0 ? <th></th> : null}
                     </tr>
                     </thead>
@@ -101,7 +107,7 @@ const Lessons = () => {
                     {lessons.map(lesson => {
                         return (
                             <tr key={lesson.id}>
-                                <th>{lesson.id}</th>
+                                {/*<th>{lesson.id}</th>*/}
                                 <th>{lesson.title}</th>
                                 <th>{lesson.description}</th>
                                 {Object.keys(user).length !== 0 ?

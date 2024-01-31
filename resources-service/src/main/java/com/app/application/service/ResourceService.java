@@ -41,13 +41,17 @@ public class ResourceService {
         System.out.println("addResourcesAndLesson");
         return  DataBufferUtils.join(part.content())
                 .flatMap(pDataBuffer -> {
+                    System.out.println("2");
                     String path = "";
                     String filename = part.filename();
+                    System.out.println("22");
                     byte[] data = new byte[pDataBuffer.readableByteCount()];
                     pDataBuffer.read(data);
+                    System.out.println("222");
                     path = s3Util.putObject(filename, data);
                     System.out.println("INSIDE FLATMAP");
-                    return createAndAdd(part, "https://filestestbucket.s3.eu-central-1.amazonaws.com/" + path, lessonId);
+                    System.out.println(path);
+                    return createAndAdd(part, "https://elearningbuckettest.s3.eu-north-1.amazonaws.com/" + path, lessonId);
                 });
     }
 
